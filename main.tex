@@ -1,0 +1,46 @@
+\documentclass[aspectratio=169, usepdftitle=false, xcolor={dvipsnames}]{beamer}
+
+\makeatletter
+\appto\input@path{{pkgs/awesome-beamer}, {pkgs/smile}}
+\makeatother
+
+\definecolor{forest}{HTML}{1A281F}
+
+\usetheme[english, secslide, subsecslide, coloraccent=forest]{awesome}
+
+\setminted{
+	numbers=none,
+	frame=none
+}
+\usemintedstyle{stata}
+
+\title[\insertsubtitle]{Graph it like it's hot}
+\author{Lukas Pietzschmann}
+\subtitle{Building a data flow graph in java}
+\email{lukas.pietzschmann@uni-ulm.de}
+\institute{Institute of Software Engineering and\\Programming Languages}
+\uni{University of Ulm}
+\location{Ulm}
+\date{10/29/2023}
+% \background{background.png}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}[fragile]
+	\frametitle{Code example}
+	\begin{minted}{java}
+		class Duck {
+			public int quack(int a) {
+
+			}
+
+			public int hatch(int a) {
+
+			}
+		}
+	\end{minted}
+\end{frame}
+
+\end{document}
