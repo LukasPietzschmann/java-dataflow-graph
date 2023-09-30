@@ -1,0 +1,6 @@
+[submodule "pkgs/awesome-beamer"]
+	path = pkgs/awesome-beamer
+	url = git@github.com:LukasPietzschmann/awesome-beamer.git
+[submodule "pkgs/smile"]
+	path = pkgs/smile
+	url = git@github.com:LukasPietzschmann/smile.git
