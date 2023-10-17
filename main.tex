@@ -8,6 +8,11 @@
 
 \usetheme[english, secslide, subsecslide, coloraccent=forest]{awesome}
 
+\usetikzlibrary{tikzmark}
+\makeatletter
+\tikzset{contoured/.style={preaction={draw=white,line width=2.5\smile@linewidth}}}
+\makeatother
+
 \setminted{
 	numbers=none,
 	frame=none
@@ -30,17 +35,27 @@
 
 \begin{frame}[fragile]
 	\frametitle{Code example}
-	\begin{minted}{java}
-		class Duck {
-			public int quack(int a) {
-
+	\begin{minted}[escapeinside=||]{java}
+		class AlDeSCo {
+			public int magic(int |\tikzmark{n}|n, boolean b) {
+				int x = 42;
+				if (b)
+					x = addFive(n);
+				else
+					x = n;
+				return x;
 			}
-
-			public int hatch(int a) {
-
+			private int addFive(int m) {
+				return m + 5;
 			}
 		}
 	\end{minted}
+	\begin{tikzpicture}[overlay, remember picture]
+		\node[anchor=east, text width=0.35\textwidth, xshift=-1cm] at (current page.east) {\block%
+			How does \subnode{t}{\mintinline{java}{n}} propagate through the programm?%
+		\endblock};
+		\draw[textarrow, contoured] ([xshift=0.5ex,yshift=1ex]pic cs:t) to[in=-90, out=90] ([xshift=0.5ex,yshift=-0.1ex]pic cs:n);
+	\end{tikzpicture}
 \end{frame}
 
 \end{document}
