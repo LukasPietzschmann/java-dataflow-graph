@@ -10,7 +10,13 @@
 
 \usetikzlibrary{tikzmark}
 \makeatletter
-\tikzset{contoured/.style={preaction={draw=white,line width=2.5\smile@linewidth}}}
+\tikzset{
+	contoured/.style={preaction={draw=white,line width=2.5\smile@linewidth}},
+	coolgraphnode/.style={roundednode, fill=lightgray, draw=none, inner sep=2mm, minimum width=2em},
+	dot/.style={circle,fill,inner sep=1pt}
+}
+
+\newtcolorbox{dottedborder}{enhanced,frame empty,interior empty,boxsep=\z@,borderline={\smile@linewidth}{\z@}{gray,dashed}}
 \makeatother
 
 \setminted{
@@ -35,27 +41,67 @@
 
 \begin{frame}[fragile]
 	\frametitle{Code example}
-	\begin{minted}[escapeinside=||]{java}
-		class AlDeSCo {
-			public int magic(int |\tikzmark{n}|n, boolean b) {
-				int x = 42;
-				if (b)
-					x = addFive(n);
-				else
-					x = n;
-				return x;
-			}
-			private int addFive(int m) {
-				return m + 5;
-			}
-		}
-	\end{minted}
-	\begin{tikzpicture}[overlay, remember picture]
-		\node[anchor=east, text width=0.35\textwidth, xshift=-1cm] at (current page.east) {\block%
-			How does \subnode{t}{\mintinline{java}{n}} propagate through the programm?%
-		\endblock};
-		\draw[textarrow, contoured] ([xshift=0.5ex,yshift=1ex]pic cs:t) to[in=-90, out=90] ([xshift=0.5ex,yshift=-0.1ex]pic cs:n);
-	\end{tikzpicture}
+	\newsavebox\steps\makeatletter
+	\savebox\steps{\begin{tikzpicture}[node distance=1ex]
+		\node[inline] (On)   [opacity=0.3] {\mintinline{java}{dependsOn(...)}};
+		\node[inline] (From) [below=of On.south east,anchor=north east] {\mintinline{java}{flowsFrom(...)}};
+		\node[inline] (To)   [below=of From.south east,anchor=north east,opacity=0.3] {\mintinline{java}{flowsTo(...)}};
+
+		\node[coolgraphnode,xshift=2mm] (L1) [right=of To] {};
+		\node[coolgraphnode] (L2) [right=of L1, xshift=1ex] {};
+		\coordinate (C) at ($(L1)!0.5!(L2)$);
+		\node[coolgraphnode] (R) at (C |- On) {};
+		\foreach \i in {L1,L2} \draw[arrow, line cap=round, shorten >=1mm,shorten <= 1mm] (R) to (\i);
+
+		\node[coolgraphnode,xshift=2mm] (L21) [right=of L2] {};
+		\node[coolgraphnode] (L22) [right=of L21, xshift=1ex] {};
+		\coordinate (C2) at ($(L21)!0.5!(L22)$);
+		\node[coolgraphnode] (R2) at (C2 |- R) {};
+
+		\node[dot] (RW) at (R2.west) {};
+		\node[dot] (RE) at (R2.east) {};
+		\node[dot] (RSE) at ([xshift=-3mm]R2.south east) {};
+		\node[dot] (RSW) at ([xshift=3mm]R2.south west) {};
+		\node[dot,xshift=-1pt,yshift=-1pt] (L1E) at (L21.north east) {};
+		\node[dot,xshift=1pt,yshift=-1pt] (L1W) at (L21.north west) {};
+		\node[dot,xshift=-1pt,yshift=-1pt] (L2E) at (L22.north east) {};
+		\node[dot,xshift=1pt,yshift=-1pt] (L2W) at (L22.north west) {};
+
+		\draw[arrow,dashed] (RW) to[out=180,in=90] node[roundnode,inner sep=0.3pt,solid]{\tiny1} (L1W);
+		\draw[arrow,dashed] (L1E) to node[roundnode,inner sep=0.3pt,solid]{\tiny2} (RSW);
+		\draw[arrow,dashed] (RSE) to node[roundnode,inner sep=0.3pt,solid]{\tiny3}(L2W);
+		\draw[arrow,dashed] (L2E) to[out=90,in=0] node[roundnode,inner sep=0.3pt,solid]{\tiny4} (RE);
+
+		\coordinate (C3) at ($(To.east)!0.5!(L1.west)$);
+		\coordinate (C4) at ($(L2.east)!0.5!(L21.west)$);
+		\foreach \i in {C3,C4} \draw[gray,line width=\smile@linewidth,line cap=round] (\i |- On.north) to (\i |- To.south);
+	\end{tikzpicture}}
+	\begin{columns}[c]
+		\begin{column}{0.55\textwidth}
+			\begin{dottedborder}
+			\begin{minted}[escapeinside=||, fontsize=\scriptsize]{java}
+				class AlDeSCo {
+					public int magic(int |\tikzmark{n}|n, boolean b) {
+						int x = 42;
+						if(b)
+							x = addFive(n);
+						else
+							x = n;
+						return x;
+					}
+					private int addFive(int m) {
+						return m + 5;
+					}
+				}
+			\end{minted}
+			\end{dottedborder}
+		\end{column}
+		\begin{column}{0.35\textwidth}
+			\block How does \tikzmark{t}\mintinline{java}{n} propagate through the program?\endblock\bigskip
+			\centerline{\clap{\scalebox{.85}{\smile@linewidth0.7px\usebox\steps}}}
+		\end{column}
+	\end{columns}
+	\tikz[overlay,remember picture]\draw[textarrow, contoured] ([xshift=0.5ex,yshift=1ex]pic cs:t) to[in=-90, out=90] ([xshift=0.5ex,yshift=-0.1ex]pic cs:n);
 \end{frame}
 
 \end{document}
