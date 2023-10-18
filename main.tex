@@ -14,7 +14,11 @@
 	contoured/.style={preaction={draw=white,line width=2.5\smile@linewidth}},
 	gn/.style={roundednode, fill=lightgray, draw=none, inner sep=1.2mm, minimum width=2em},
 	dot/.style={circle,fill,inner sep=1pt},
-	outline/.style={roundednode, draw=accent, anchor=north east, outer sep=1ex, inner sep=1ex}
+	outline/.style={roundednode, draw=accent, anchor=north east, outer sep=1ex, inner sep=1ex},
+	read/.style={arrow,draw=red!40!gray},
+	def/.style={arrow,draw=blue!40!gray},
+	occ/.style={arrow,draw=green!40!gray},
+	con/.style={arrow,dashed,draw=gray}
 }
 
 \newtcolorbox{dottedborder}{enhanced,frame empty,interior empty,boxsep=\z@,borderline={\smile@linewidth}{\z@}{gray,dashed}}
@@ -137,12 +141,52 @@
 	\frametitle\secname
 	\newsavebox\stepii
 	\savebox\stepii{\begin{tikzpicture}[node distance=1ex]
-		\node[coolgraphnode,xshift=2mm] (L1) {};
-		\node[coolgraphnode] (L2) [right=of L1, xshift=1ex] {};
-		\node[coolgraphnode,yshift=1cm] (R) at ($(L1)!0.5!(L2)$) {};
+		\node[gn,xshift=2mm] (L1) {};
+		\node[gn] (L2) [right=of L1, xshift=1ex] {};
+		\node[gn,yshift=1cm] (R) at ($(L1)!0.5!(L2)$) {};
 		\foreach \i in {L1,L2} \draw[arrow, line cap=round, shorten >=1mm,shorten <= 1mm] (R) to (\i);
 	\end{tikzpicture}}
 	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepii};
+	\begin{tikzpicture}[node distance=4ex]
+		\node[gn] (narg)                     {n\strut};
+		\node[gn,xshift=4cm] (n) [right=of narg] {n\strut};
+		\coordinate (C) at ($(narg)!0.5!(n)$);
+		\coordinate[above=of n] (T);
+		\node[gn] (intn) at (C |- T)         {int n\strut};
+		\node[gn] (addFive) [below=of narg]  {addFive(n)\strut};
+		\node[gn] (xthen) [below=of addFive] {x = addFive(n)\strut};
+		\node[gn] (xelse) at (n |- xthen)    {x = n\strut};
+		\coordinate[below=of xelse] (B);
+		\node[gn] (returnx) at (C |- B)      {return x\strut};
+		\node[gn] (intx) at (C |- xelse)     {int x = 42\strut};
+		\node[gn] (b) at (C |- addFive)      {b\strut};
+		\node[gn] (boolb) at (C |- n)        {boolean b\strut};
+
+		\foreach \i in {xthen,xelse} {
+			\draw[read] (returnx) to (\i);
+			\draw[occ] (\i) to (intx);
+			\draw[con] (\i) to (b);
+		}
+		\foreach \i in {n,narg} \draw[read] (\i) to (intn);
+		\draw[read] (addFive) to (narg);
+		\draw[def] (xthen) to (addFive);
+		\draw[def] (xelse) to (n);
+		\draw[read] (b) to (boolb);
+	\end{tikzpicture}
+	\begin{tikzpicture}[node distance=4ex]
+		\node[gn] (intm) {int m\strut};
+		\node[gn] (m) [below=of intm] {m\strut};
+		\node[gn] (e) [below=of m] {m + 5\strut};
+
+		\draw[def] (e) to (m);
+		\draw[read] (m) to (intm);
+	\end{tikzpicture}
+	\begin{tikzpicture}[node distance=4ex]
+		\node[gn] (add) {addFive\strut};
+		\node[gn] (magic) [below=of add] {magic\strut};
+
+		\draw[arrow] (magic) to (add);
+	\end{tikzpicture}
 \end{frame}
 
 \section{Traverse the dataflow graph}
