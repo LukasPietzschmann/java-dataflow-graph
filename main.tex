@@ -6,7 +6,7 @@
 
 \definecolor{forest}{HTML}{004225}
 
-\usetheme[english, secslide, subsecslide, coloraccent=forest, notoc]{awesome}
+\usetheme[english, coloraccent=forest, notoc]{awesome}
 
 \usetikzlibrary{tikzmark}
 \makeatletter
@@ -39,8 +39,9 @@
 
 \maketitle
 
+\section{Code Example}
 \begin{frame}[fragile]
-	\frametitle{Code example}
+	\frametitle\secname
 	\newsavebox\steps\makeatletter
 	\savebox\steps{\begin{tikzpicture}[node distance=1ex]
 		\node[inline] (On)   [opacity=0.3] {\mintinline{java}{dependsOn(...)}};
