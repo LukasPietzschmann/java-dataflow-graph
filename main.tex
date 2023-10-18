@@ -105,4 +105,54 @@
 	\tikz[overlay,remember picture]\draw[textarrow, contoured] ([xshift=0.5ex,yshift=1ex]pic cs:t) to[in=-90, out=90] ([xshift=0.5ex,yshift=-0.1ex]pic cs:n);
 \end{frame}
 
+\section{Select the Operation}
+\begin{frame}
+	\frametitle\secname
+	\newsavebox\stepi
+	\savebox\stepi{\begin{tikzpicture}[node distance=1ex]
+		\node[inline] (On)   [opacity=0.3] {\mintinline{java}{dependsOn(...)}};
+		\node[inline] (From) [below=of On.south east,anchor=north east] {\mintinline{java}{flowsFrom(...)}};
+		\node[inline] (To)   [below=of From.south east,anchor=north east,opacity=0.3] {\mintinline{java}{flowsTo(...)}};
+	\end{tikzpicture}}
+	\tikz[overlay,remember picture]\node[roundednode, draw=gray, anchor=north east, outer sep=1ex, inner sep=1ex] at (current page.north east) {\usebox\stepi};
+\end{frame}
+
+\begin{frame}
+	\frametitle{Build the dataflow graph}
+	\newsavebox\stepii
+	\savebox\stepii{\begin{tikzpicture}[node distance=1ex]
+		\node[coolgraphnode,xshift=2mm] (L1) {};
+		\node[coolgraphnode] (L2) [right=of L1, xshift=1ex] {};
+		\node[coolgraphnode,yshift=1cm] (R) at ($(L1)!0.5!(L2)$) {};
+		\foreach \i in {L1,L2} \draw[arrow, line cap=round, shorten >=1mm,shorten <= 1mm] (R) to (\i);
+	\end{tikzpicture}}
+	\tikz[overlay,remember picture]\node[roundednode, draw=gray, anchor=north east, outer sep=1ex, inner sep=1ex] at (current page.north east) {\usebox\stepii};
+\end{frame}
+
+\section{Traverse the dataflow graph}
+\begin{frame}
+	\frametitle\secname
+	\newsavebox\stepiii
+	\savebox\stepiii{\begin{tikzpicture}[node distance=1ex]
+		\node[coolgraphnode,xshift=2mm] (L21) {};
+		\node[coolgraphnode] (L22) [right=of L21, xshift=1ex] {};
+		\node[coolgraphnode,yshift=1cm] (R2) at ($(L21)!0.5!(L22)$) {};
+
+		\node[dot] (RW) at (R2.west) {};
+		\node[dot] (RE) at (R2.east) {};
+		\node[dot] (RSE) at ([xshift=-3mm]R2.south east) {};
+		\node[dot] (RSW) at ([xshift=3mm]R2.south west) {};
+		\node[dot,xshift=-1pt,yshift=-1pt] (L1E) at (L21.north east) {};
+		\node[dot,xshift=1pt,yshift=-1pt] (L1W) at (L21.north west) {};
+		\node[dot,xshift=-1pt,yshift=-1pt] (L2E) at (L22.north east) {};
+		\node[dot,xshift=1pt,yshift=-1pt] (L2W) at (L22.north west) {};
+
+		\draw[arrow,dashed] (RW) to[out=180,in=90] node[roundnode,inner sep=0.3pt,solid]{\tiny1} (L1W);
+		\draw[arrow,dashed] (L1E) to node[roundnode,inner sep=0.3pt,solid]{\tiny2} (RSW);
+		\draw[arrow,dashed] (RSE) to node[roundnode,inner sep=0.3pt,solid]{\tiny3}(L2W);
+		\draw[arrow,dashed] (L2E) to[out=90,in=0] node[roundnode,inner sep=0.3pt,solid]{\tiny4} (RE);
+	\end{tikzpicture}}
+	\tikz[overlay,remember picture]\node[roundednode, draw=gray, anchor=north east, outer sep=1ex, inner sep=1ex] at (current page.north east) {\usebox\stepiii};
+\end{frame}
+
 \end{document}
