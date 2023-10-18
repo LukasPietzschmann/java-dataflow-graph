@@ -116,6 +116,20 @@
 		\node[inline] (To)   [below=of From.south east,anchor=north east,opacity=0.3] {\mintinline{java}{flowsTo(...)}};
 	\end{tikzpicture}}
 	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepi};
+	\begin{columns}[c]
+		\begin{column}{0.6\textwidth}
+			We can ask three different questions:
+			\begin{itemize}
+				\item Does \texttt{x} \textbf{depend on} \texttt{y}?
+				\item What \textbf{flows from} \texttt{x}?
+				\item What \textbf{flows to} \texttt{x}?
+			\end{itemize}
+		\end{column}
+		\begin{column}{0.3\textwidth}
+			\setlength\fboxsep{0px}\setlength\fboxrule{1px}%
+			\textcolor{accent}{\fbox{\href{https://imgflip.com/memegenerator/184932428/Three-Take-it-or-leave-it}{\includegraphics[width=\textwidth]{imgs/patrick.png}}}}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \section{Build the dataflow graph}
