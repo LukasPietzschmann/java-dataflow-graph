@@ -12,7 +12,7 @@
 \makeatletter
 \tikzset{
 	contoured/.style={preaction={draw=white,line width=2.5\smile@linewidth}},
-	coolgraphnode/.style={roundednode, fill=lightgray, draw=none, inner sep=2mm, minimum width=2em},
+	gn/.style={roundednode, fill=lightgray, draw=none, inner sep=1.2mm, minimum width=2em},
 	dot/.style={circle,fill,inner sep=1pt},
 	outline/.style={roundednode, draw=accent, anchor=north east, outer sep=1ex, inner sep=1ex}
 }
@@ -49,16 +49,16 @@
 		\node[inline] (From) [below=of On.south east,anchor=north east] {\mintinline{java}{flowsFrom(...)}};
 		\node[inline] (To)   [below=of From.south east,anchor=north east,opacity=0.3] {\mintinline{java}{flowsTo(...)}};
 
-		\node[coolgraphnode,xshift=2mm] (L1) [right=of To] {};
-		\node[coolgraphnode] (L2) [right=of L1, xshift=1ex] {};
+		\node[gn,xshift=2mm] (L1) [right=of To] {};
+		\node[gn] (L2) [right=of L1, xshift=1ex] {};
 		\coordinate (C) at ($(L1)!0.5!(L2)$);
-		\node[coolgraphnode] (R) at (C |- On) {};
+		\node[gn] (R) at (C |- On) {};
 		\foreach \i in {L1,L2} \draw[arrow, line cap=round, shorten >=1mm,shorten <= 1mm] (R) to (\i);
 
-		\node[coolgraphnode,xshift=2mm] (L21) [right=of L2] {};
-		\node[coolgraphnode] (L22) [right=of L21, xshift=1ex] {};
+		\node[gn,xshift=2mm] (L21) [right=of L2] {};
+		\node[gn] (L22) [right=of L21, xshift=1ex] {};
 		\coordinate (C2) at ($(L21)!0.5!(L22)$);
-		\node[coolgraphnode] (R2) at (C2 |- R) {};
+		\node[gn] (R2) at (C2 |- R) {};
 
 		\node[dot] (RW) at (R2.west) {};
 		\node[dot] (RE) at (R2.east) {};
@@ -150,9 +150,9 @@
 	\frametitle\secname
 	\newsavebox\stepiii
 	\savebox\stepiii{\begin{tikzpicture}[node distance=1ex]
-		\node[coolgraphnode,xshift=2mm] (L21) {};
-		\node[coolgraphnode] (L22) [right=of L21, xshift=1ex] {};
-		\node[coolgraphnode,yshift=1cm] (R2) at ($(L21)!0.5!(L22)$) {};
+		\node[gn,xshift=2mm] (L21) {};
+		\node[gn] (L22) [right=of L21, xshift=1ex] {};
+		\node[gn,yshift=1cm] (R2) at ($(L21)!0.5!(L22)$) {};
 
 		\node[dot] (RW) at (R2.west) {};
 		\node[dot] (RE) at (R2.east) {};
