@@ -13,7 +13,8 @@
 \tikzset{
 	contoured/.style={preaction={draw=white,line width=2.5\smile@linewidth}},
 	coolgraphnode/.style={roundednode, fill=lightgray, draw=none, inner sep=2mm, minimum width=2em},
-	dot/.style={circle,fill,inner sep=1pt}
+	dot/.style={circle,fill,inner sep=1pt},
+	outline/.style={roundednode, draw=accent, anchor=north east, outer sep=1ex, inner sep=1ex}
 }
 
 \newtcolorbox{dottedborder}{enhanced,frame empty,interior empty,boxsep=\z@,borderline={\smile@linewidth}{\z@}{gray,dashed}}
@@ -114,7 +115,7 @@
 		\node[inline] (From) [below=of On.south east,anchor=north east] {\mintinline{java}{flowsFrom(...)}};
 		\node[inline] (To)   [below=of From.south east,anchor=north east,opacity=0.3] {\mintinline{java}{flowsTo(...)}};
 	\end{tikzpicture}}
-	\tikz[overlay,remember picture]\node[roundednode, draw=gray, anchor=north east, outer sep=1ex, inner sep=1ex] at (current page.north east) {\usebox\stepi};
+	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepi};
 \end{frame}
 
 \section{Build the dataflow graph}
@@ -127,7 +128,7 @@
 		\node[coolgraphnode,yshift=1cm] (R) at ($(L1)!0.5!(L2)$) {};
 		\foreach \i in {L1,L2} \draw[arrow, line cap=round, shorten >=1mm,shorten <= 1mm] (R) to (\i);
 	\end{tikzpicture}}
-	\tikz[overlay,remember picture]\node[roundednode, draw=gray, anchor=north east, outer sep=1ex, inner sep=1ex] at (current page.north east) {\usebox\stepii};
+	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepii};
 \end{frame}
 
 \section{Traverse the dataflow graph}
@@ -153,7 +154,7 @@
 		\draw[arrow,dashed] (RSE) to node[roundnode,inner sep=0.3pt,solid]{\tiny3}(L2W);
 		\draw[arrow,dashed] (L2E) to[out=90,in=0] node[roundnode,inner sep=0.3pt,solid]{\tiny4} (RE);
 	\end{tikzpicture}}
-	\tikz[overlay,remember picture]\node[roundednode, draw=gray, anchor=north east, outer sep=1ex, inner sep=1ex] at (current page.north east) {\usebox\stepiii};
+	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepiii};
 \end{frame}
 
 \end{document}
