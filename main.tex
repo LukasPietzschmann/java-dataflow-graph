@@ -117,8 +117,9 @@
 	\tikz[overlay,remember picture]\node[roundednode, draw=gray, anchor=north east, outer sep=1ex, inner sep=1ex] at (current page.north east) {\usebox\stepi};
 \end{frame}
 
+\section{Build the dataflow graph}
 \begin{frame}
-	\frametitle{Build the dataflow graph}
+	\frametitle\secname
 	\newsavebox\stepii
 	\savebox\stepii{\begin{tikzpicture}[node distance=1ex]
 		\node[coolgraphnode,xshift=2mm] (L1) {};
