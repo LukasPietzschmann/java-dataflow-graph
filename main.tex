@@ -146,21 +146,22 @@
 		\node[gn,yshift=1cm] (R) at ($(L1)!0.5!(L2)$) {};
 		\foreach \i in {L1,L2} \draw[arrow, line cap=round, shorten >=1mm,shorten <= 1mm] (R) to (\i);
 	\end{tikzpicture}}
+	\tikzset{every node/.append style={font=\small,execute at begin node=\strut}}
 	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepii};
 	\begin{tikzpicture}[node distance=4ex]
-		\node[gn] (narg)                     {n\strut};
-		\node[gn,xshift=4cm] (n) [right=of narg] {n\strut};
+		\node[gn] (narg)                     {n};
+		\node[gn,xshift=4cm] (n) [right=of narg] {n};
 		\coordinate (C) at ($(narg)!0.5!(n)$);
 		\coordinate[above=of n] (T);
-		\node[gn] (intn) at (C |- T)         {int n\strut};
-		\node[gn] (addFive) [below=of narg]  {addFive(n)\strut};
-		\node[gn] (xthen) [below=of addFive] {x = addFive(n)\strut};
-		\node[gn] (xelse) at (n |- xthen)    {x = n\strut};
+		\node[gn,anchor=south] (intn) at (C |- T)         {int n};
+		\node[gn] (addFive) [below=of narg]  {addFive(n)};
+		\node[gn] (xthen) [below=of addFive] {x = addFive(n)};
+		\node[gn] (xelse) at (n |- xthen)    {x = n};
 		\coordinate[below=of xelse] (B);
-		\node[gn] (returnx) at (C |- B)      {return x\strut};
-		\node[gn] (intx) at (C |- xelse)     {int x = 42\strut};
-		\node[gn] (b) at (C |- addFive)      {b\strut};
-		\node[gn] (boolb) at (C |- n)        {boolean b\strut};
+		\node[gn, anchor=north] (returnx) at (C |- B)      {return x};
+		\node[gn] (intx) at (C |- xelse)     {int x = 42};
+		\node[gn] (b) at (C |- addFive)      {b};
+		\node[gn] (boolb) at (C |- n)        {boolean b};
 
 		\foreach \i in {xthen,xelse} {
 			\draw[read] (returnx) to (\i);
@@ -174,16 +175,16 @@
 		\draw[read] (b) to (boolb);
 	\end{tikzpicture}
 	\begin{tikzpicture}[node distance=4ex]
-		\node[gn] (intm) {int m\strut};
-		\node[gn] (m) [below=of intm] {m\strut};
-		\node[gn] (e) [below=of m] {m + 5\strut};
+		\node[gn] (intm) {int m};
+		\node[gn] (m) [below=of intm] {m};
+		\node[gn] (e) [below=of m] {m + 5};
 
 		\draw[def] (e) to (m);
 		\draw[read] (m) to (intm);
 	\end{tikzpicture}
 	\begin{tikzpicture}[node distance=4ex]
-		\node[gn] (add) {addFive\strut};
-		\node[gn] (magic) [below=of add] {magic\strut};
+		\node[gn] (add) {addFive};
+		\node[gn] (magic) [below=of add] {magic};
 
 		\draw[arrow] (magic) to (add);
 	\end{tikzpicture}
