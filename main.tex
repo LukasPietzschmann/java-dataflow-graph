@@ -8,7 +8,7 @@
 
 \usetheme[english, coloraccent=forest, notoc]{awesome}
 
-\usetikzlibrary{tikzmark}
+\usetikzlibrary{tikzmark,shapes.misc}
 \makeatletter
 \tikzset{
 	vf/.style={alt={<#1->{}{invisible}}},
@@ -201,7 +201,11 @@
 				\draw[vf=22,def] (xelse) to (n);
 				\draw[vf=9,read] (b) to (boolb);
 
-				\node[vf=3,doutline,fit=(intn)(returnx)(xthen)(xelse)] {};
+				\coordinate[below=of returnx,yshift=4mm] (b);
+				\node[vf=3,doutline,fit=(intn)(returnx)(xthen)(xelse)(b),outer sep=0pt] (q) {};
+
+				\node[vf=3,chamfered rectangle,chamfered rectangle xsep=2pt,line
+				width=1px,inner sep=1pt,draw=gray,fill=accent!10] at (q.south) {magic};
 			\end{tikzpicture}
 		\end{column}
 		\begin{column}{0.1\textwidth}\def\m#1{\tikzmark{#1}}
@@ -211,12 +215,20 @@
 				\node[vf=18,gn] (e) [below=of m] {m + 5};
 				\draw[vf=18,def] (e) to (m);
 				\draw[vf=17,read] (m) to (intm);
-				\node[vf=14,doutline,fit=(intm)(m)(e)] (F) {};
+				\coordinate[below=of e,yshift=4mm] (o);
+				\node[vf=14,doutline,fit=(intm)(m)(e)(o),outer sep=0pt] (F) {};
 
-				\node[vf=14,gn,yshift=3mm] (add) [below=of F] {addFive};
+				\node[vf=14,gn,yshift=0mm] (add) [below=of F] {addFive};
 				\node[vf=3,gn] (magic) [below=of add] {magic};
 				\draw[vf=14,arrow] (magic) to (add);
-				\node[doutline,fit=(add)(magic)] {};
+				\coordinate[below=of magic,yshift=4mm] (B);
+				\node[doutline,fit=(add)(magic)(B),outer sep=0pt] (F2) {};
+
+				\node[vf=14,chamfered rectangle,chamfered rectangle xsep=2pt,line
+				width=1px,inner sep=1pt,draw=gray,fill=accent!10] at (F.south) {addFive};
+
+				\node[chamfered rectangle,chamfered rectangle xsep=2pt,line
+				width=1px,inner sep=1pt,draw=gray,fill=accent!10] at (F2.south) {Methods};
 			\end{tikzpicture}
 		\end{column}
 		\begin{column}{0.35\textwidth}\def\m#1{\tikzmark{#1}}
