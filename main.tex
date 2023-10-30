@@ -206,16 +206,16 @@
 		\end{column}
 		\begin{column}{0.1\textwidth}\def\m#1{\tikzmark{#1}}
 			\begin{tikzpicture}
-				\node[gn] (intm) {int m};
-				\node[gn] (m) [below=of intm] {m};
-				\node[gn] (e) [below=of m] {m + 5};
-				\draw[def] (e) to (m);
-				\draw[read] (m) to (intm);
+				\node[vf=15,gn] (intm) {int m};
+				\node[vf=17,gn] (m) [below=of intm] {m};
+				\node[vf=18,gn] (e) [below=of m] {m + 5};
+				\draw[vf=18,def] (e) to (m);
+				\draw[vf=17,read] (m) to (intm);
 				\node[doutline,fit=(intm)(m)(e)] (F) {};
 
-				\node[gn,yshift=3mm] (add) [below=of F] {addFive};
-				\node[gn] (magic) [below=of add] {magic};
-				\draw[arrow] (magic) to (add);
+				\node[vf=14,gn,yshift=3mm] (add) [below=of F] {addFive};
+				\node[vf=3,gn] (magic) [below=of add] {magic};
+				\draw[vf=14,arrow] (magic) to (add);
 				\node[doutline,fit=(add)(magic)] {};
 			\end{tikzpicture}
 		\end{column}
@@ -260,8 +260,8 @@
 			\uls<14-18>{green}{m2s}{m2e}%         addFive
 			\ul<15>{green}{ms}{me}%               paramM
 			\ul<16-18>{green}{r2s}{r2e}%          return m + 5;
-			\ul<17-18>[4px]{green}{res}{ree}%     m + 5
-			\ul<18>[6.5px]{green}{res}{rme}%      m
+			\ul<18>[4px]{green}{res}{ree}%     m + 5
+			\ul<17-18>[6.5px]{green}{res}{rme}%      m
 		\end{column}
 	\end{columns}
 \end{frame}
