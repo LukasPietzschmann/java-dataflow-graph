@@ -11,6 +11,7 @@
 \usetikzlibrary{tikzmark}
 \makeatletter
 \tikzset{
+	vf/.style={alt={<#1->{}{invisible}}},
 	short/.style n args={1}{shorten <=#1,shorten >=#1},
 	contoured/.style={preaction={draw=white,line width=2.5\smile@linewidth}},
 	gn/.style={roundednode, fill=lightgray, draw=none, inner sep=1.2mm, minimum width=2em},
@@ -173,19 +174,19 @@
 		\begin{column}{0.45\textwidth}
 			\tikzset{every node/.append style={font=\scriptsize,execute at begin node=\llap{\phantom b}},node distance=3ex}
 			\begin{tikzpicture}
-				\node[gn] (narg)                          {n};
-				\node[gn,xshift=4cm] (n) [right=of narg]  {n};
+				\node[vf=11,gn] (narg)                          {n};
+				\node[vf=20,gn,xshift=4cm] (n) [right=of narg]  {n};
 				\coordinate (C) at ($(narg)!0.5!(n)$);
 				\coordinate[above=of n] (T);
-				\node[gn,anchor=south] (intn) at (C |- T) {int n};
-				\node[gn] (addFive) [below=of narg]       {addFive(n)};
-				\node[gn] (xthen) [below=of addFive]      {x = addFive(n)};
-				\node[gn] (xelse) at (n |- xthen)         {x = n};
+				\node[vf=4,gn,anchor=south] (intn) at (C |- T) {int n};
+				\node[vf=12,gn] (addFive) [below=of narg]       {addFive(n)};
+				\node[vf=18,gn] (xthen) [below=of addFive]      {x = addFive(n)};
+				\node[vf=21,gn] (xelse) at (n |- xthen)         {x = n};
 				\coordinate[below=of xelse] (B);
-				\node[gn, anchor=north](returnx)at(C |- B){return x};
-				\node[gn] (intx) at (C |- xelse)          {int x = 42};
+				\node[vf=23,gn, anchor=north](returnx)at(C |- B){return x};
+				\node[vf=7,gn] (intx) at (C |- xelse)          {int x = 42};
 				\node[gn] (b) at (C |- addFive)           {b};
-				\node[gn] (boolb) at (C |- n)             {boolean b};
+				\node[vf=5,gn] (boolb) at (C |- n)             {boolean b};
 
 				\foreach \i in {xthen,xelse} {
 					\draw[read] (returnx) to (\i);
