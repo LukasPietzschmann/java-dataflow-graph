@@ -174,18 +174,18 @@
 		\begin{column}{0.45\textwidth}
 			\tikzset{every node/.append style={font=\scriptsize,execute at begin node=\llap{\phantom b}},node distance=3ex}
 			\begin{tikzpicture}
-				\node[vf=11,gn] (narg)                          {n};
-				\node[vf=20,gn,xshift=4cm] (n) [right=of narg]  {n};
+				\node[vf=12,gn] (narg)                          {n};
+				\node[vf=21,gn,xshift=4cm] (n) [right=of narg]  {n};
 				\coordinate (C) at ($(narg)!0.5!(n)$);
 				\coordinate[above=of n] (T);
 				\node[vf=4,gn,anchor=south] (intn) at (C |- T) {int n};
-				\node[vf=12,gn] (addFive) [below=of narg]       {addFive(n)};
-				\node[vf=18,gn] (xthen) [below=of addFive]      {x = addFive(n)};
-				\node[vf=21,gn] (xelse) at (n |- xthen)         {x = n};
+				\node[vf=13,gn] (addFive) [below=of narg]       {addFive(n)};
+				\node[vf=19,gn] (xthen) [below=of addFive]      {x = addFive(n)};
+				\node[vf=22,gn] (xelse) at (n |- xthen)         {x = n};
 				\coordinate[below=of xelse] (B);
-				\node[vf=23,gn, anchor=north](returnx)at(C |- B){return x};
+				\node[vf=24,gn, anchor=north](returnx)at(C |- B){return x};
 				\node[vf=7,gn] (intx) at (C |- xelse)          {int x = 42};
-				\node[gn] (b) at (C |- addFive)           {b};
+				\node[vf=9,gn] (b) at (C |- addFive)           {b};
 				\node[vf=5,gn] (boolb) at (C |- n)             {boolean b};
 
 				\foreach \i in {xthen,xelse} {
@@ -222,7 +222,7 @@
 				|\m{cstart}|class AlDeSCo {
 					|\m{mstart}|public int magic(|\m{ns}|int n|\m{ne}|, |\m{bs}|boolean b|\m{be}|) {
 						|\m{intxs}|int x|\m{intxe}| = 42|\m{intxee}|;
-						|\m{ifs}|if(b)
+						|\m{ifs}|if(|\m{ps}|b|\m{pe}|)
 							|\m{thens}|x|\m{xte}| = |\m{adds}|addFive|\m{addse}|(|\m{pns}|n|\m{pne}|)|\m{adde}|;|\m{thene}|
 						else
 						|\m{ife}|	|\m{elses}|x|\m{xee}| = |\m{nes}|n|\m{nee}|;|\m{elsee}|
@@ -241,23 +241,24 @@
 			\ul<5>{blue}{bs}{be}%                 paramB
 			\ul<6-7>{blue}{intxs}{intxee}%        int x = 42;
 			\ul<7>[4px]{blue}{intxs}{intxe}%      int x
-			\uls<8-21>{blue}{ifs}{ife}%           if-else
-			\ul<9-18>{blue}{thens}{thene}%        then
-			\ul<10-17>[4px]{blue}{adds}{adde}%    addFive(n)
-			\ul<11>[6.5px]{blue}{pns}{pne}%       n
-			\ul<12-17>[6.5px]{blue}{adds}{addse}% addFive
-			\ul<18>[4px]{blue}{thens}{xte}%       x
-			\ul<19-21>{blue}{elses}{elsee}%       else
-			\ul<20>[4px]{blue}{nes}{nee}%         n
-			\ul<21>[4px]{blue}{elses}{xee}%       x
-			\ul<22-23>{blue}{rs}{re}%             return x;
-			\ul<23>[4px]{blue}{rxs}{rxe}%         x
+			\uls<8-22>{blue}{ifs}{ife}%           if-else
+			\uls<9>{blue}{ps}{pe}%                p
+			\ul<10-19>{blue}{thens}{thene}%        then
+			\ul<11-18>[4px]{blue}{adds}{adde}%    addFive(n)
+			\ul<12>[6.5px]{blue}{pns}{pne}%       n
+			\ul<13-18>[6.5px]{blue}{adds}{addse}% addFive
+			\ul<19>[4px]{blue}{thens}{xte}%       x
+			\ul<20-22>{blue}{elses}{elsee}%       else
+			\ul<21>[4px]{blue}{nes}{nee}%         n
+			\ul<22>[4px]{blue}{elses}{xee}%       x
+			\ul<23-24>{blue}{rs}{re}%             return x;
+			\ul<24>[4px]{blue}{rxs}{rxe}%         x
 
-			\uls<13-17>{green}{m2s}{m2e}%         addFive
-			\ul<14>{green}{ms}{me}%               paramM
-			\ul<15-17>{green}{r2s}{r2e}%          return m + 5;
-			\ul<16-17>[4px]{green}{res}{ree}%     m + 5
-			\ul<17>[6.5px]{green}{res}{rme}%      m
+			\uls<14-18>{green}{m2s}{m2e}%         addFive
+			\ul<15>{green}{ms}{me}%               paramM
+			\ul<16-18>{green}{r2s}{r2e}%          return m + 5;
+			\ul<17-18>[4px]{green}{res}{ree}%     m + 5
+			\ul<18>[6.5px]{green}{res}{rme}%      m
 		\end{column}
 	\end{columns}
 \end{frame}
