@@ -201,7 +201,7 @@
 				\draw[vf=22,def] (xelse) to (n);
 				\draw[vf=9,read] (b) to (boolb);
 
-				\node[doutline,fit=(intn)(returnx)(xthen)(xelse)] {};
+				\node[vf=3,doutline,fit=(intn)(returnx)(xthen)(xelse)] {};
 			\end{tikzpicture}
 		\end{column}
 		\begin{column}{0.1\textwidth}\def\m#1{\tikzmark{#1}}
@@ -211,7 +211,7 @@
 				\node[vf=18,gn] (e) [below=of m] {m + 5};
 				\draw[vf=18,def] (e) to (m);
 				\draw[vf=17,read] (m) to (intm);
-				\node[doutline,fit=(intm)(m)(e)] (F) {};
+				\node[vf=14,doutline,fit=(intm)(m)(e)] (F) {};
 
 				\node[vf=14,gn,yshift=3mm] (add) [below=of F] {addFive};
 				\node[vf=3,gn] (magic) [below=of add] {magic};
