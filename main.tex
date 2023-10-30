@@ -188,16 +188,18 @@
 				\node[vf=9,gn] (b) at (C |- addFive)           {b};
 				\node[vf=5,gn] (boolb) at (C |- n)             {boolean b};
 
-				\foreach \i in {xthen,xelse} {
-					\draw[read] (returnx) to (\i);
-					\draw[occ] (\i) to (intx);
-					\draw[con] (\i) to (b);
-				}
-				\foreach \i in {n,narg} \draw[read] (\i) to (intn);
-				\draw[read] (addFive) to (narg);
-				\draw[def] (xthen) to (addFive);
-				\draw[def] (xelse) to (n);
-				\draw[read] (b) to (boolb);
+				\draw[vf=24,read] (returnx) to (xelse);
+				\draw[vf=22,occ] (xelse) to (intx);
+				\draw[vf=22,con] (xelse) to (b);
+				\draw[vf=24,read] (returnx) to (xthen);
+				\draw[vf=19,occ] (xthen) to (intx);
+				\draw[vf=19,con] (xthen) to (b);
+				\draw[vf=21,read] (n) to (intn);
+				\draw[vf=12,read] (narg) to (intn);
+				\draw[vf=13,read] (addFive) to (narg);
+				\draw[vf=19,def] (xthen) to (addFive);
+				\draw[vf=22,def] (xelse) to (n);
+				\draw[vf=9,read] (b) to (boolb);
 
 				\node[doutline,fit=(intn)(returnx)(xthen)(xelse)] {};
 			\end{tikzpicture}
@@ -236,7 +238,7 @@
 			\end{dottedborder}
 			\newcommand<>\ul[4][0pt]{\uncover#5{\tikz[remember picture, overlay]\fill[#2,opacity=0.3,rounded corners=.7px,visible on=#5] ([yshift=#1-0.8px]pic cs:#3) rectangle ([yshift=#1+1.2px]pic cs:#4);}}
 			\newcommand<>\uls[4][0pt]{\uncover#5{\tikz[remember picture, overlay]\fill[#2,opacity=0.3,rounded corners=.7px,visible on=#5] ([xshift=#1-1px,yshift=0.5ex]pic cs:#3) rectangle ([xshift=#1+1px]pic cs:#4);}} \uls<2-24>{red}{cstart}{cend}%   class
-			\uls<3-23>{blue}{mstart}{mend}%       magic
+			\uls<3-24>{blue}{mstart}{mend}%       magic
 			\ul<4>{blue}{ns}{ne}%                 paramN
 			\ul<5>{blue}{bs}{be}%                 paramB
 			\ul<6-7>{blue}{intxs}{intxee}%        int x = 42;
