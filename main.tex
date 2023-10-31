@@ -51,6 +51,7 @@
 	frame=none
 }
 \usemintedstyle{algol_nu}
+\newmintinline{java}{}
 
 \colorlet{green}{accent}
 
@@ -73,9 +74,9 @@
 	\frametitle\secname
 	\newsavebox\steps\makeatletter
 	\savebox\steps{\begin{tikzpicture}[node distance=1ex]
-		\node[inline] (On)   [opacity=0.3] {\mintinline{java}{dependsOn(...)}};
-		\node[inline] (From) [below=of On.south east,anchor=north east] {\mintinline{java}{flowsFrom(...)}};
-		\node[inline] (To)   [below=of From.south east,anchor=north east,opacity=0.3] {\mintinline{java}{flowsTo(...)}};
+		\node[inline] (On)   [opacity=0.3] {\javainline{flowsTo(...)}};
+		\node[inline] (From) [below=of On.south east,anchor=north east] {\javainline{flowsFrom(...)}};
+		\node[inline] (To)   [below=of From.south east,anchor=north east,opacity=0.3] {\javainline{dependsOn(...)}};
 
 		\node[gn,xshift=2mm] (L1) [right=of To] {};
 		\node[gn] (L2) [right=of L1, xshift=1ex] {};
@@ -127,7 +128,7 @@
 			\end{dottedborder}
 		\end{column}
 		\begin{column}{0.35\textwidth}
-			\block How does \tikzmark{t}\mintinline{java}{n} propagate through the program?\endblock\bigskip
+			\block How does \tikzmark{t}\javainline{n} propagate through the program?\endblock\bigskip
 			\centerline{\clap{\scalebox{.85}{\smile@linewidth0.7px\usebox\steps}}}
 		\end{column}
 	\end{columns}
@@ -139,9 +140,9 @@
 	\frametitle\secname
 	\newsavebox\stepi
 	\savebox\stepi{\begin{tikzpicture}[node distance=1ex]
-		\node[inline] (On)   [opacity=0.3] {\mintinline{java}{dependsOn(...)}};
-		\node[inline] (From) [below=of On.south east,anchor=north east] {\mintinline{java}{flowsFrom(...)}};
-		\node[inline] (To)   [below=of From.south east,anchor=north east,opacity=0.3] {\mintinline{java}{flowsTo(...)}};
+		\node[inline] (On)   {\javainline{flowsTo(...)}};
+		\node[inline] (From) [below=of On.south east,anchor=north east] {\javainline{flowsFrom(...)}};
+		\node[inline] (To)   [below=of From.south east,anchor=north east] {\javainline{dependsOn(...)}};
 	\end{tikzpicture}}
 	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepi};
 	\begin{columns}[c]
@@ -297,29 +298,86 @@
 \end{frame}
 
 \section{Traverse the dataflow graph}
+\newsavebox\stepiii
+\savebox\stepiii{\begin{tikzpicture}[node distance=1ex]
+	\node[gn,xshift=2mm] (L21) {};
+	\node[gn] (L22) [right=of L21, xshift=1ex] {};
+	\node[gn,yshift=1cm] (R2) at ($(L21)!0.5!(L22)$) {};
+
+	\node[dot] (RW) at (R2.west) {};
+	\node[dot] (RE) at (R2.east) {};
+	\node[dot] (RSE) at ([xshift=-3mm]R2.south east) {};
+	\node[dot] (RSW) at ([xshift=3mm]R2.south west) {};
+	\node[dot,xshift=-1pt,yshift=-1pt] (L1E) at (L21.north east) {};
+	\node[dot,xshift=1pt,yshift=-1pt] (L1W) at (L21.north west) {};
+	\node[dot,xshift=-1pt,yshift=-1pt] (L2E) at (L22.north east) {};
+	\node[dot,xshift=1pt,yshift=-1pt] (L2W) at (L22.north west) {};
+
+	\draw[arrow,dashed] (RW) to[out=180,in=90] node[roundnode,inner sep=0.3pt,solid]{\tiny1} (L1W);
+	\draw[arrow,dashed] (L1E) to node[roundnode,inner sep=0.3pt,solid]{\tiny2} (RSW);
+	\draw[arrow,dashed] (RSE) to node[roundnode,inner sep=0.3pt,solid]{\tiny3}(L2W);
+	\draw[arrow,dashed] (L2E) to[out=90,in=0] node[roundnode,inner sep=0.3pt,solid]{\tiny4} (RE);
+\end{tikzpicture}}
 \begin{frame}
 	\frametitle\secname
-	\newsavebox\stepiii
-	\savebox\stepiii{\begin{tikzpicture}[node distance=1ex]
-		\node[gn,xshift=2mm] (L21) {};
-		\node[gn] (L22) [right=of L21, xshift=1ex] {};
-		\node[gn,yshift=1cm] (R2) at ($(L21)!0.5!(L22)$) {};
-
-		\node[dot] (RW) at (R2.west) {};
-		\node[dot] (RE) at (R2.east) {};
-		\node[dot] (RSE) at ([xshift=-3mm]R2.south east) {};
-		\node[dot] (RSW) at ([xshift=3mm]R2.south west) {};
-		\node[dot,xshift=-1pt,yshift=-1pt] (L1E) at (L21.north east) {};
-		\node[dot,xshift=1pt,yshift=-1pt] (L1W) at (L21.north west) {};
-		\node[dot,xshift=-1pt,yshift=-1pt] (L2E) at (L22.north east) {};
-		\node[dot,xshift=1pt,yshift=-1pt] (L2W) at (L22.north west) {};
-
-		\draw[arrow,dashed] (RW) to[out=180,in=90] node[roundnode,inner sep=0.3pt,solid]{\tiny1} (L1W);
-		\draw[arrow,dashed] (L1E) to node[roundnode,inner sep=0.3pt,solid]{\tiny2} (RSW);
-		\draw[arrow,dashed] (RSE) to node[roundnode,inner sep=0.3pt,solid]{\tiny3}(L2W);
-		\draw[arrow,dashed] (L2E) to[out=90,in=0] node[roundnode,inner sep=0.3pt,solid]{\tiny4} (RE);
-	\end{tikzpicture}}
 	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepiii};
+	\tikzset{every node/.append style={font=\scriptsize,execute at begin node=\llap{\phantom b}},node distance=3ex}
+	\begin{columns}[c]
+		\begin{column}{0.35\textwidth}
+			\begin{description}
+				\item[\javainline{flowsTo(b)}]\hfill\\ Traverse all paths that lead to b.
+				\item[\javainline{flowsFrom(a)}]\hfill\\ Traverse all paths start start at a.
+				\item[\javainline{dependsOn(a, b)}]\hfill\\ Is there a path between a and b?
+			\end{description}
+		\end{column}
+		\begin{column}{0.1\textwidth}
+			\begin{tikzpicture}
+				\node[gn] (intm) {int m};
+				\node[gn] (m) [below=of intm] {m};
+				\node[gn] (e) [below=of m] {m + 5};
+				\draw[def] (e) to (m);
+				\draw[read] (m) to (intm);
+				\coordinate[below=of e,yshift=4mm] (o);
+				\node[doutline,fit=(intm)(m)(e)(o),outer sep=0pt,fill=green!50!gray!5,draw=green!50!gray] (F) {};
+				\node[vf=15] at (F.south) {\uselabel{addFive}};
+			\end{tikzpicture}
+		\end{column}
+		\begin{column}{0.45\textwidth}
+			\begin{tikzpicture}
+				\node[gn] (narg)                          {n};
+				\node[gn,xshift=3cm] (n) [right=of narg]  {n};
+				\coordinate (C) at ($(narg)!0.5!(n)$);
+				\coordinate[above=of n] (T);
+				\node[gn,anchor=south] (intn) at (C |- T) {int n};
+				\node[gn] (addFive) [below=of narg]       {addFive(n)};
+				\node[gn] (xthen) [below=of addFive]      {x = addFive(n)};
+				\node[gn] (xelse) at (n |- xthen)         {x = n};
+				\coordinate[below=of xelse] (B);
+				\node[gn, anchor=north](returnx)at(C |- B){return x};
+				\node[gn] (intx) at (C |- xelse)          {int x = 42};
+				\node[gn] (b) at (C |- addFive)           {b};
+				\node[gn] (boolb) at (C |- n)             {boolean b};
+
+				\draw[read] (returnx) to (xelse);
+				\draw[occ] (xelse) to (intx);
+				\draw[con] (xelse) to (b);
+				\draw[read] (returnx) to (xthen);
+				\draw[occ] (xthen) to (intx);
+				\draw[con] (xthen) to (b);
+				\draw[read] (n) to (intn);
+				\draw[read] (narg) to (intn);
+				\draw[read] (addFive) to (narg);
+				\draw[def] (xthen) to (addFive);
+				\draw[def] (xelse) to (n);
+				\draw[read] (b) to (boolb);
+
+				\coordinate[below=of returnx,yshift=4mm] (b);
+				\node[doutline,fit=(intn)(returnx)(xthen)(xelse)(b),outer sep=0pt,fill=blue!50!gray!5,draw=blue!50!gray] (q) {};
+
+				\node[vf=4] at (q.south) {\uselabel{magic}};
+			\end{tikzpicture}
+		\end{column}
+	\end{columns}
 \end{frame}
 
 \end{document}
