@@ -319,6 +319,7 @@
 	\draw[arrow,dashed] (RSE) to node[roundnode,inner sep=0.3pt,solid]{\tiny3}(L2W);
 	\draw[arrow,dashed] (L2E) to[out=90,in=0] node[roundnode,inner sep=0.3pt,solid]{\tiny4} (RE);
 \end{tikzpicture}}
+\def\cgn#1{\tikz[anchor=base, baseline]\node[gn,minimum width=0pt,baseline=]{\normalsize\llap{\phantom{b}}#1};}
 \begin{frame}
 	\frametitle\secname
 	\begin{tikzpicture}[overlay,remember picture,node distance=-1ex]
@@ -330,11 +331,11 @@
 		\begin{column}{0.35\textwidth}
 			\setbeamercovered{transparent=30}
 			\begin{description}
-				\item<1>[\javainline{flowsTo(b)}]\hfill\\ Traverse all paths that lead to b.
-				\item<1->[\javainline{flowsFrom(}\alt<1>{\javainline{a)}}{\javainline{param_n)}}]\hfill\\ Traverse all paths start start at a.
-				\item<1>[\javainline{dependsOn(a, b)}]\hfill\\ Is there a path between a and b?
+				\item<1>[\javainline{flowsTo(a)}]\hfill\\ Traverse all paths that lead to \cgn{a}.
+				\item<1->[\javainline{flowsFrom(}\alt<1>{\javainline{a)}}{\javainline{param_n)}}]\hfill\\ Traverse all paths start start at \cgn{a}.
+				\item<1>[\javainline{dependsOn(a, b)}]\hfill\\ Is there a path between \cgn{a} and \cgn{b}?
 			\end{description}
-		\end{column}\only<2>{}
+		\end{column}
 		\begin{column}{0.1\textwidth}
 			\begin{tikzpicture}
 				\node[um=1,gn] (intm) {int m};
