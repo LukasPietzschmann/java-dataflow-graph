@@ -91,24 +91,24 @@
 \createlabel[red]{got}{What we got}
 \begin{frame}[fragile]
 	\frametitle{Why even bother?}
-	\tikz[overlay,remember picture]\node[anchor=north east] at (current page.north east) {\scalebox{.7}{\usebox\issue}};
+	\tikz[overlay,remember picture]\node[anchor=north east] at (current page.north east) {\scalebox{.8}{\usebox\issue}};
 	\begin{minipage}{.6\textwidth}
 		\begin{tikzpicture}
-			\node[outer sep=0pt](F){\begin{dottedborder}
+			\node[outer sep=0pt,inner sep=0pt](F){\begin{dottedborder}
 				\begin{minted}{java}
 					if(arr[i] > arr[j])
 						// ...
 				\end{minted}
 			\end{dottedborder}};
-			\node[outer sep=0pt,below=of F](F2){\begin{dottedborder}
+			\node[outer sep=0pt,inner sep=0pt,below=of F](F2){\begin{dottedborder}
 				\begin{minted}{java}
 					boolean needsToSwap = arr[i] > arr[j];
 					if(needsToSwap)
 						// ...
 				\end{minted}
 			\end{dottedborder}};
-			\node[anchor=center,yshift=1.4mm] at (F.south) {\uselabel{want}};
-			\node[anchor=center,yshift=1.4mm] at (F2.south) {\uselabel{got}};
+			\node[anchor=center] at (F.south) {\uselabel{want}};
+			\node[anchor=center] at (F2.south) {\uselabel{got}};
 		\end{tikzpicture}
 	\end{minipage}
 \end{frame}
