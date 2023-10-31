@@ -22,10 +22,17 @@
 	read/.style={cr,short=1mm,arrow,draw=red!40!gray},
 	def/.style={cr,short=1mm,arrow,draw=blue!40!gray},
 	occ/.style={cr,short=1mm,arrow,draw=green!40!gray},
-	con/.style={cr,short=1mm,arrow,dashed,draw=gray}
+	con/.style={cr,short=1mm,arrow,dashed,draw=gray},
+	label/.style={line join=round,chamfered rectangle,chamfered rectangle xsep=2pt,line width=1px,inner sep=1pt,draw=gray,fill=accent!10}
 }
+\newcommand\createlabel[3][accent!10]{
+	\expandafter\newsavebox\csname#2\endcsname
+	\expandafter\savebox\csname#2\endcsname{\tikz\node[label,fill=#1!10,draw=#1!50!gray](){#3};}
+}
+\def\uselabel#1{\scalebox{.7}{\expandafter\usebox\csname#1\endcsname}}
 
-\newtcolorbox{dottedborder}{enhanced,frame empty,interior empty,boxsep=\z@,borderline={\smile@linewidth}{\z@}{gray,dashed}}
+\newtcolorbox{dottedborder}{enhanced,frame empty,interior empty,boxsep=\z@,arc=\smile@rounding,borderline={\smile@linewidth}{\z@}{gray,dashed}}
+\newtcolorbox{solidborder}{enhanced,frame empty,interior empty,boxsep=-1mm,right=0pt,arc=\smile@rounding,borderline={\smile@linewidth}{\z@}{gray}}
 \makeatother
 
 \setminted{
@@ -164,6 +171,9 @@
 	\draw[occ] (A3) to node[yshift=-5mm,green!30!black]{occurrence} (B3);
 	\draw[con] (A4) to node[yshift=-5mm,gray!30!black]{controlled by} (B4);
 \end{tikzpicture}}
+\createlabel[blue]{magic}{magic}
+\createlabel[red]{methods}{Methods}
+\createlabel[green]{addFive}{addFive}
 \begin{frame}[fragile]
 	\frametitle\secname
 	\begin{tikzpicture}[overlay, remember picture,node distance=-1ex]
@@ -202,10 +212,9 @@
 				\draw[vf=9,read] (b) to (boolb);
 
 				\coordinate[below=of returnx,yshift=4mm] (b);
-				\node[vf=3,doutline,fit=(intn)(returnx)(xthen)(xelse)(b),outer sep=0pt] (q) {};
+				\node[vf=3,doutline,fit=(intn)(returnx)(xthen)(xelse)(b),outer sep=0pt,fill=blue!50!gray!5,draw=blue!50!gray] (q) {};
 
-				\node[vf=3,chamfered rectangle,chamfered rectangle xsep=2pt,line
-				width=1px,inner sep=1pt,draw=gray,fill=accent!10] at (q.south) {magic};
+				\node[vf=3] at (q.south) {\uselabel{magic}};
 			\end{tikzpicture}
 		\end{column}
 		\begin{column}{0.1\textwidth}\def\m#1{\tikzmark{#1}}
@@ -216,23 +225,21 @@
 				\draw[vf=18,def] (e) to (m);
 				\draw[vf=17,read] (m) to (intm);
 				\coordinate[below=of e,yshift=4mm] (o);
-				\node[vf=14,doutline,fit=(intm)(m)(e)(o),outer sep=0pt] (F) {};
+				\node[vf=14,doutline,fit=(intm)(m)(e)(o),outer sep=0pt,fill=green!50!gray!5,draw=green!50!gray] (F) {};
 
 				\node[vf=14,gn,yshift=0mm] (add) [below=of F] {addFive};
 				\node[vf=3,gn] (magic) [below=of add] {magic};
 				\draw[vf=14,arrow] (magic) to (add);
 				\coordinate[below=of magic,yshift=4mm] (B);
-				\node[doutline,fit=(add)(magic)(B),outer sep=0pt] (F2) {};
+				\node[doutline,fit=(add)(magic)(B),outer sep=0pt,fill=red!50!gray!5,draw=red!50!gray] (F2) {};
 
-				\node[vf=14,chamfered rectangle,chamfered rectangle xsep=2pt,line
-				width=1px,inner sep=1pt,draw=gray,fill=accent!10] at (F.south) {addFive};
+				\node[vf=14] at (F.south) {\uselabel{addFive}};
 
-				\node[chamfered rectangle,chamfered rectangle xsep=2pt,line
-				width=1px,inner sep=1pt,draw=gray,fill=accent!10] at (F2.south) {Methods};
+				\node at (F2.south) {\uselabel{methods}};
 			\end{tikzpicture}
 		\end{column}
-		\begin{column}{0.35\textwidth}\def\m#1{\tikzmark{#1}}
-			\begin{dottedborder}
+		\begin{column}{0.4\textwidth}\def\m#1{\tikzmark{#1}}
+			\begin{solidborder}
 			\begin{minted}[escapeinside=||, fontsize=\tiny]{java}
 				|\m{cstart}|class AlDeSCo {
 					|\m{mstart}|public int magic(|\m{ns}|int n|\m{ne}|, |\m{bs}|boolean b|\m{be}|) {
@@ -248,7 +255,7 @@
 					|\m{m2e}|}
 				|\m{cend}|}
 			\end{minted}
-			\end{dottedborder}
+			\end{solidborder}
 			\newcommand<>\ul[4][0pt]{\uncover#5{\tikz[remember picture, overlay]\fill[#2,opacity=0.3,rounded corners=.7px,visible on=#5] ([yshift=#1-0.8px]pic cs:#3) rectangle ([yshift=#1+1.2px]pic cs:#4);}}
 			\newcommand<>\uls[4][0pt]{\uncover#5{\tikz[remember picture, overlay]\fill[#2,opacity=0.3,rounded corners=.7px,visible on=#5] ([xshift=#1-1px,yshift=0.5ex]pic cs:#3) rectangle ([xshift=#1+1px]pic cs:#4);}} \uls<2-24>{red}{cstart}{cend}%   class
 			\uls<3-24>{blue}{mstart}{mend}%       magic
