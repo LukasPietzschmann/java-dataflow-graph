@@ -394,7 +394,7 @@
 				\node[um=<{1,5-9}>,gn,xshift=3cm] (n) [right=of narg]  {n};
 				\coordinate (C) at ($(narg)!0.5!(n)$);
 				\coordinate[above=of n] (T);
-				\node[um=<{1,3-9}>,gn,anchor=south] (intn) at (C |- T) {int n};
+				\node[um=<{1,3-}>,gn,anchor=south] (intn) at (C |- T) {int n};
 				\node[um=<{1,13-}>,gn] (addFive) [below=of narg]       {addFive(n)};
 				\node[um=<{1,21-}>,gn] (xthen) [below=of addFive]      {x = addFive(n)};
 				\node[um=<{1,7-9}>,gn] (xelse) at (n |- xthen)         {x = n};
