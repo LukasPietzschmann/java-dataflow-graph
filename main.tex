@@ -6,6 +6,17 @@
 
 \definecolor{forest}{HTML}{004225}
 
+\usepackage{fontspec}
+\setmonofont[
+	Path = ./pkgs/awesome-beamer/fonts/,
+	Scale = .9,
+	Extension = .ttf,
+	Contextuals=Alternate,
+	BoldFont={*-Bold},
+	UprightFont={*-Regular},
+]{Fira Code}
+\renewcommand\setmonofont[2][]{}
+
 \usetheme[english, coloraccent=forest, notoc]{awesome}
 
 \usetikzlibrary{tikzmark,shapes.misc}
