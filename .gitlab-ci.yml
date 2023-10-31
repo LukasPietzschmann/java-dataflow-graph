@@ -1,0 +1,11 @@
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
+  LATEX_IMAGE: registry.gitlab.com/islandoftex/images/texlive:latest
+
+build-pdf:
+  image: $LATEX_IMAGE
+  script:
+    - latexmk -pdf
+  artifacts:
+    paths:
+      - "build/main.pdf"
