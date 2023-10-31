@@ -179,19 +179,19 @@
 	\tikz[overlay,remember picture]\draw[textarrow, contoured] ([xshift=0.5ex,yshift=1ex]pic cs:t) to[in=-90, out=90] ([xshift=0.5ex,yshift=-0.1ex]pic cs:n);
 \end{frame}
 
+\newsavebox\stepi
+\savebox\stepi{\begin{tikzpicture}[node distance=1ex]
+	\node[inline] (On)   [opacity=0.3] {\javainline{flowsTo(...)}};
+	\node[inline] (From) [below=of On.south east,anchor=north east] {\javainline{flowsFrom(...)}};
+	\node[inline] (To)   [opacity=0.3,below=of From.south east,anchor=north east] {\javainline{dependsOn(...)}};
+\end{tikzpicture}}
 \begin{frame}
 	\frametitle{Select the Operation}
-	\newsavebox\stepi
-	\savebox\stepi{\begin{tikzpicture}[node distance=1ex]
-		\node[inline] (On)   [opacity=0.3] {\javainline{flowsTo(...)}};
-		\node[inline] (From) [below=of On.south east,anchor=north east] {\javainline{flowsFrom(...)}};
-		\node[inline] (To)   [opacity=0.3,below=of From.south east,anchor=north east] {\javainline{dependsOn(...)}};
-	\end{tikzpicture}}
 	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepi};
 	\begin{columns}[c]
 		\begin{column}{0.6\textwidth}
 			We can ask three different questions:
-			\begin{itemize}
+			\begin{itemize}[<+(1)->]
 				\item Does \texttt{x} \textbf{depend on} \texttt{y}?
 				\item What \textbf{flows from} \texttt{x}?
 				\item What \textbf{flows to} \texttt{x}?
