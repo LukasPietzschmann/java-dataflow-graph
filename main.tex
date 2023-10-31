@@ -331,9 +331,9 @@
 		\begin{column}{0.35\textwidth}
 			\setbeamercovered{transparent=30}
 			\begin{description}
-				\item<1>[\javainline{flowsTo(a)}]\hfill\\ Traverse all paths that lead to \cgn{a}.
-				\item<1->[\javainline{flowsFrom(}\alt<1>{\javainline{a)}}{\javainline{param_n)}}]\hfill\\ Traverse all paths start start at \cgn{a}.
-				\item<1>[\javainline{dependsOn(a, b)}]\hfill\\ Is there a path between \cgn{a} and \cgn{b}?
+				\item<1>[\javainline{flowsTo(a)}]\hfill\\ Traverse all paths that lead to a.
+				\item<1->[\javainline{flowsFrom(}\alt<1>{\javainline{a)}}{\cgn{\javainline{int n}}\javainline{)}}]\hfill\\ Traverse all paths start start at \alt<1>{a}{\cgn{int n}}.
+				\item<1>[\javainline{dependsOn(a, b)}]\hfill\\ Is there a path between a and b?
 			\end{description}
 		\end{column}
 		\begin{column}{0.1\textwidth}
