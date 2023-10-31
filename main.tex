@@ -23,6 +23,7 @@
 \makeatletter
 \tikzset{
 	vf/.style={alt={<#1->{}{invisible}}},
+	um/.style={unmuted on=<#1>},
 	short/.style n args={1}{shorten <=#1,shorten >=#1},
 	contoured/.style={preaction={draw=white,line width=2.5\smile@linewidth}},
 	gn/.style={roundednode, fill=lightgray, draw=none, inner sep=1.2mm, minimum width=2em},
@@ -320,61 +321,65 @@
 \end{tikzpicture}}
 \begin{frame}
 	\frametitle\secname
-	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepiii};
+	\begin{tikzpicture}[overlay,remember picture,node distance=-1ex]
+		\node[outline] at (current page.north east) (S) {\usebox\stepiii};
+		\node[outline, left=of S.north west,anchor=north east] {\scalebox{.528}{\usebox\legend}};
+	\end{tikzpicture}
 	\tikzset{every node/.append style={font=\scriptsize,execute at begin node=\llap{\phantom b}},node distance=3ex}
 	\begin{columns}[c]
 		\begin{column}{0.35\textwidth}
+			\setbeamercovered{transparent=30}
 			\begin{description}
-				\item[\javainline{flowsTo(b)}]\hfill\\ Traverse all paths that lead to b.
-				\item[\javainline{flowsFrom(a)}]\hfill\\ Traverse all paths start start at a.
-				\item[\javainline{dependsOn(a, b)}]\hfill\\ Is there a path between a and b?
+				\item<1>[\javainline{flowsTo(b)}]\hfill\\ Traverse all paths that lead to b.
+				\item<1->[\javainline{flowsFrom(}\alt<1>{\javainline{a)}}{\javainline{param_n)}}]\hfill\\ Traverse all paths start start at a.
+				\item<1>[\javainline{dependsOn(a, b)}]\hfill\\ Is there a path between a and b?
 			\end{description}
-		\end{column}
+		\end{column}\only<2>{}
 		\begin{column}{0.1\textwidth}
 			\begin{tikzpicture}
-				\node[gn] (intm) {int m};
-				\node[gn] (m) [below=of intm] {m};
-				\node[gn] (e) [below=of m] {m + 5};
-				\draw[def] (e) to (m);
-				\draw[read] (m) to (intm);
+				\node[um=1,gn] (intm) {int m};
+				\node[um=1,gn] (m) [below=of intm] {m};
+				\node[um=1,gn] (e) [below=of m] {m + 5};
+				\draw[um=1,def] (e) to (m);
+				\draw[um=1,read] (m) to (intm);
 				\coordinate[below=of e,yshift=4mm] (o);
-				\node[doutline,fit=(intm)(m)(e)(o),outer sep=0pt,fill=green!50!gray!5,draw=green!50!gray] (F) {};
-				\node[vf=15] at (F.south) {\uselabel{addFive}};
+				\node[um=1,doutline,fit=(intm)(m)(e)(o),outer sep=0pt,fill=green!50!gray!5,draw=green!50!gray] (F) {};
+				\node[um=1] at (F.south) {\uselabel{addFive}};
 			\end{tikzpicture}
 		\end{column}
 		\begin{column}{0.45\textwidth}
 			\begin{tikzpicture}
-				\node[gn] (narg)                          {n};
-				\node[gn,xshift=3cm] (n) [right=of narg]  {n};
+				\node[um=1,gn] (narg)                          {n};
+				\node[um=1,gn,xshift=3cm] (n) [right=of narg]  {n};
 				\coordinate (C) at ($(narg)!0.5!(n)$);
 				\coordinate[above=of n] (T);
-				\node[gn,anchor=south] (intn) at (C |- T) {int n};
-				\node[gn] (addFive) [below=of narg]       {addFive(n)};
-				\node[gn] (xthen) [below=of addFive]      {x = addFive(n)};
-				\node[gn] (xelse) at (n |- xthen)         {x = n};
+				\node[um=1,gn,anchor=south] (intn) at (C |- T) {int n};
+				\node[um=1,gn] (addFive) [below=of narg]       {addFive(n)};
+				\node[um=1,gn] (xthen) [below=of addFive]      {x = addFive(n)};
+				\node[um=1,gn] (xelse) at (n |- xthen)         {x = n};
 				\coordinate[below=of xelse] (B);
-				\node[gn, anchor=north](returnx)at(C |- B){return x};
-				\node[gn] (intx) at (C |- xelse)          {int x = 42};
-				\node[gn] (b) at (C |- addFive)           {b};
-				\node[gn] (boolb) at (C |- n)             {boolean b};
+				\node[um=1,gn, anchor=north](returnx)at(C |- B){return x};
+				\node[um=1,gn] (intx) at (C |- xelse)          {int x = 42};
+				\node[um=1,gn] (b) at (C |- addFive)           {b};
+				\node[um=1,gn] (boolb) at (C |- n)             {boolean b};
 
-				\draw[read] (returnx) to (xelse);
-				\draw[occ] (xelse) to (intx);
-				\draw[con] (xelse) to (b);
-				\draw[read] (returnx) to (xthen);
-				\draw[occ] (xthen) to (intx);
-				\draw[con] (xthen) to (b);
-				\draw[read] (n) to (intn);
-				\draw[read] (narg) to (intn);
-				\draw[read] (addFive) to (narg);
-				\draw[def] (xthen) to (addFive);
-				\draw[def] (xelse) to (n);
-				\draw[read] (b) to (boolb);
+				\draw[um=1,read] (returnx) to (xelse);
+				\draw[um=1,occ] (xelse) to (intx);
+				\draw[um=1,con] (xelse) to (b);
+				\draw[um=1,read] (returnx) to (xthen);
+				\draw[um=1,occ] (xthen) to (intx);
+				\draw[um=1,con] (xthen) to (b);
+				\draw[um=1,read] (n) to (intn);
+				\draw[um=1,read] (narg) to (intn);
+				\draw[um=1,read] (addFive) to (narg);
+				\draw[um=1,def] (xthen) to (addFive);
+				\draw[um=1,def] (xelse) to (n);
+				\draw[um=1,read] (b) to (boolb);
 
 				\coordinate[below=of returnx,yshift=4mm] (b);
-				\node[doutline,fit=(intn)(returnx)(xthen)(xelse)(b),outer sep=0pt,fill=blue!50!gray!5,draw=blue!50!gray] (q) {};
+				\node[um=1,doutline,fit=(intn)(returnx)(xthen)(xelse)(b),outer sep=0pt,fill=blue!50!gray!5,draw=blue!50!gray] (q) {};
 
-				\node[vf=4] at (q.south) {\uselabel{magic}};
+				\node[um=1] at (q.south) {\uselabel{magic}};
 			\end{tikzpicture}
 		\end{column}
 	\end{columns}
