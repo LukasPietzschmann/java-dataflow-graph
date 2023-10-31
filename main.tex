@@ -75,21 +75,42 @@
 
 \maketitle
 \section{Motivation}
-\newsavebox\eye
-\savebox\eye{\begin{tikzpicture}
+\newsavebox\eye\savebox\eye{\begin{tikzpicture}
 \node[draw=green,circle,line width=1pt] (symbol) {};
 \node[fill=green,circle,minimum width=3pt,inner sep=0pt] at (symbol) {};
 \end{tikzpicture}}
-\begin{frame}
+\newsavebox\issue\savebox\issue{\begin{tikzpicture}[node distance=0pt]
+\node[] (symbol) {\usebox\eye};
+\node[darkgray,right=of symbol] (aldesco) {\textbf{\texttt{AlDeSCo}}};
+\node[darkgray,right=of aldesco] (number) {\textbf{\texttt{\#83}}};
+\node[right=of number,xshift=3cm] (picture) {\emoji{smile}};
+\node[below=of symbol.west, anchor=north west,yshift=-3mm,text width=5cm,align=left] (title) {Datenfluss wäre hilfreich gewesen};
+\node[roundednode,shadow,fit=(symbol)(picture)(title),node on layer=background,draw=lightgray] (F) {};
+\end{tikzpicture}}
+\createlabel[green]{want}{What we want to check for}
+\createlabel[red]{got}{What we got}
+\begin{frame}[fragile]
 	\frametitle{Why even bother?}
-	\begin{tikzpicture}[node distance=0pt]
-		\node[] (symbol) {\usebox\eye};
-		\node[darkgray,right=of symbol] (aldesco) {AlDeSCo};
-		\node[darkgray,right=of aldesco] (number) {\#83};
-		\node[right=of number,xshift=3cm] (picture) {\emoji{smile}};
-		\node[below=of symbol.west, anchor=north west,yshift=-3mm,text width=5cm,align=left] (title) {Datenfluss wäre hilfreich gewesen};
-		\node[roundednode,shadow,fit=(symbol)(picture)(title),node on layer=background,draw=lightgray] (F) {};
-	\end{tikzpicture}
+	\tikz[overlay,remember picture]\node[anchor=north east] at (current page.north east) {\scalebox{.7}{\usebox\issue}};
+	\begin{minipage}{.6\textwidth}
+		\begin{tikzpicture}
+			\node[outer sep=0pt](F){\begin{dottedborder}
+				\begin{minted}{java}
+					if(arr[i] > arr[j])
+						// ...
+				\end{minted}
+			\end{dottedborder}};
+			\node[outer sep=0pt,below=of F](F2){\begin{dottedborder}
+				\begin{minted}{java}
+					boolean needsToSwap = arr[i] > arr[j];
+					if(needsToSwap)
+						// ...
+				\end{minted}
+			\end{dottedborder}};
+			\node[anchor=center,yshift=1.4mm] at (F.south) {\uselabel{want}};
+			\node[anchor=center,yshift=1.4mm] at (F2.south) {\uselabel{got}};
+		\end{tikzpicture}
+	\end{minipage}
 \end{frame}
 
 \section{Three steps to success}
