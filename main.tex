@@ -6,6 +6,8 @@
 
 \definecolor{forest}{HTML}{004225}
 
+\usepackage{emoji}
+
 \usepackage{fontspec}
 \setmonofont[
 	Path = ./pkgs/awesome-beamer/fonts/,
@@ -23,11 +25,12 @@
 \makeatletter
 \tikzset{
 	no shadows/.style={general shadow/.style=},
+	shadow/.style={drop shadow={shadow xshift=.2ex, shadow yshift=-.2ex}},
 	vf/.style={alt={<#1->{}{invisible,no shadows}}},
 	um/.style={alt={#1{}{muted,no shadows}}},
 	short/.style n args={1}{shorten <=#1,shorten >=#1},
 	contoured/.style={preaction={draw=white,line width=2.5\smile@linewidth}},
-	gn/.style={roundednode, fill=lightgray, draw=none, inner sep=1.2mm, minimum width=2em,drop shadow={shadow xshift=.2ex, shadow yshift=-.2ex}},
+	gn/.style={roundednode, fill=lightgray, draw=none, inner sep=1.2mm, minimum width=2em,shadow},
 	nsgn/.style={no shadows,gn},
 	dot/.style={circle,fill,inner sep=1pt},
 	outline/.style={roundednode, draw=accent, anchor=north east, outer sep=1ex, inner sep=1ex,line width=\smile@linewidth},
@@ -71,8 +74,25 @@
 \begin{document}
 
 \maketitle
+\section{Motivation}
+\newsavebox\eye
+\savebox\eye{\begin{tikzpicture}
+\node[draw=green,circle,line width=1pt] (symbol) {};
+\node[fill=green,circle,minimum width=3pt,inner sep=0pt] at (symbol) {};
+\end{tikzpicture}}
+\begin{frame}
+	\frametitle{Why even bother?}
+	\begin{tikzpicture}[node distance=0pt]
+		\node[] (symbol) {\usebox\eye};
+		\node[darkgray,right=of symbol] (aldesco) {AlDeSCo};
+		\node[darkgray,right=of aldesco] (number) {\#83};
+		\node[right=of number,xshift=3cm] (picture) {\emoji{smile}};
+		\node[below=of symbol.west, anchor=north west,yshift=-3mm,text width=5cm,align=left] (title) {Datenfluss wäre hilfreich gewesen};
+		\node[roundednode,shadow,fit=(symbol)(picture)(title),node on layer=background,draw=lightgray] (F) {};
+	\end{tikzpicture}
+\end{frame}
 
-\section{Code Example}
+\section{Three steps to success}
 \begin{frame}[fragile]
 	\frametitle\secname
 	\newsavebox\steps\makeatletter
@@ -138,14 +158,13 @@
 	\tikz[overlay,remember picture]\draw[textarrow, contoured] ([xshift=0.5ex,yshift=1ex]pic cs:t) to[in=-90, out=90] ([xshift=0.5ex,yshift=-0.1ex]pic cs:n);
 \end{frame}
 
-\section{Select the Operation}
 \begin{frame}
-	\frametitle\secname
+	\frametitle{Select the Operation}
 	\newsavebox\stepi
 	\savebox\stepi{\begin{tikzpicture}[node distance=1ex]
-		\node[inline] (On)   {\javainline{flowsTo(...)}};
+		\node[inline] (On)   [opacity=0.3] {\javainline{flowsTo(...)}};
 		\node[inline] (From) [below=of On.south east,anchor=north east] {\javainline{flowsFrom(...)}};
-		\node[inline] (To)   [below=of From.south east,anchor=north east] {\javainline{dependsOn(...)}};
+		\node[inline] (To)   [opacity=0.3,below=of From.south east,anchor=north east] {\javainline{dependsOn(...)}};
 	\end{tikzpicture}}
 	\tikz[overlay,remember picture]\node[outline] at (current page.north east) {\usebox\stepi};
 	\begin{columns}[c]
@@ -164,7 +183,6 @@
 	\end{columns}
 \end{frame}
 
-\section{Build the dataflow graph}
 \newsavebox\stepii\newsavebox\legend
 \savebox\stepii{\begin{tikzpicture}[node distance=1ex]
 	\node[nsgn,xshift=2mm] (L1) {};
@@ -190,7 +208,7 @@
 \createlabel[red]{methods}{Methods}
 \createlabel[green]{addFive}{addFive}
 \begin{frame}[fragile]
-	\frametitle\secname
+	\frametitle{Build the dataflow graph}
 	\begin{tikzpicture}[overlay, remember picture,node distance=-1ex]
 		\node[outline] at (current page.north east) (S) {\usebox\stepii};
 		\node[outline, left=of S.north west,anchor=north east] {\scalebox{.528}{\usebox\legend}};
@@ -300,7 +318,6 @@
 	\end{columns}
 \end{frame}
 
-\section{Traverse the dataflow graph}
 \newsavebox\stepiii
 \savebox\stepiii{\begin{tikzpicture}[node distance=1ex]
 	\node[nsgn,xshift=2mm] (L21) {};
@@ -323,7 +340,7 @@
 \end{tikzpicture}}
 \def\cgn#1{\tikz[anchor=base, baseline]\node[nsgn,minimum width=0pt,baseline=]{\normalsize\llap{\phantom{b}}#1};}
 \begin{frame}
-	\frametitle\secname
+	\frametitle{Traverse the dataflow graph}
 	\begin{tikzpicture}[overlay,remember picture,node distance=-1ex]
 		\node[outline] at (current page.north east) (S) {\usebox\stepiii};
 		\node[outline, left=of S.north west,anchor=north east] {\scalebox{.528}{\usebox\legend}};
