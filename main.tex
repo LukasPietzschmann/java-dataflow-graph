@@ -195,58 +195,58 @@
 	\begin{columns}[c]
 		\begin{column}{0.45\textwidth}
 			\begin{tikzpicture}
-				\node[vf=12,gn] (narg)                          {n};
-				\node[vf=21,gn,xshift=3cm] (n) [right=of narg]  {n};
+				\node[vf=13,gn] (narg)                          {n};
+				\node[vf=22,gn,xshift=3cm] (n) [right=of narg]  {n};
 				\coordinate (C) at ($(narg)!0.5!(n)$);
 				\coordinate[above=of n] (T);
-				\node[vf=4,gn,anchor=south] (intn) at (C |- T) {int n};
-				\node[vf=13,gn] (addFive) [below=of narg]       {addFive(n)};
-				\node[vf=19,gn] (xthen) [below=of addFive]      {x = addFive(n)};
-				\node[vf=22,gn] (xelse) at (n |- xthen)         {x = n};
+				\node[vf=5,gn,anchor=south] (intn) at (C |- T) {int n};
+				\node[vf=14,gn] (addFive) [below=of narg]       {addFive(n)};
+				\node[vf=20,gn] (xthen) [below=of addFive]      {x = addFive(n)};
+				\node[vf=23,gn] (xelse) at (n |- xthen)         {x = n};
 				\coordinate[below=of xelse] (B);
-				\node[vf=24,gn, anchor=north](returnx)at(C |- B){return x};
-				\node[vf=7,gn] (intx) at (C |- xelse)          {int x = 42};
-				\node[vf=9,gn] (b) at (C |- addFive)           {b};
-				\node[vf=5,gn] (boolb) at (C |- n)             {boolean b};
+				\node[vf=25,gn, anchor=north](returnx)at(C |- B){return x};
+				\node[vf=8,gn] (intx) at (C |- xelse)          {int x = 42};
+				\node[vf=10,gn] (b) at (C |- addFive)           {b};
+				\node[vf=6,gn] (boolb) at (C |- n)             {boolean b};
 
-				\draw[vf=24,read] (returnx) to (xelse);
-				\draw[vf=22,occ] (xelse) to (intx);
-				\draw[vf=22,con] (xelse) to (b);
-				\draw[vf=24,read] (returnx) to (xthen);
-				\draw[vf=19,occ] (xthen) to (intx);
-				\draw[vf=19,con] (xthen) to (b);
-				\draw[vf=21,read] (n) to (intn);
-				\draw[vf=12,read] (narg) to (intn);
-				\draw[vf=13,read] (addFive) to (narg);
-				\draw[vf=19,def] (xthen) to (addFive);
-				\draw[vf=22,def] (xelse) to (n);
-				\draw[vf=9,read] (b) to (boolb);
+				\draw[vf=25,read] (returnx) to (xelse);
+				\draw[vf=23,occ] (xelse) to (intx);
+				\draw[vf=23,con] (xelse) to (b);
+				\draw[vf=25,read] (returnx) to (xthen);
+				\draw[vf=20,occ] (xthen) to (intx);
+				\draw[vf=20,con] (xthen) to (b);
+				\draw[vf=22,read] (n) to (intn);
+				\draw[vf=13,read] (narg) to (intn);
+				\draw[vf=14,read] (addFive) to (narg);
+				\draw[vf=20,def] (xthen) to (addFive);
+				\draw[vf=23,def] (xelse) to (n);
+				\draw[vf=10,read] (b) to (boolb);
 
 				\coordinate[below=of returnx,yshift=4mm] (b);
-				\node[vf=3,doutline,fit=(intn)(returnx)(xthen)(xelse)(b),outer sep=0pt,fill=blue!50!gray!5,draw=blue!50!gray] (q) {};
+				\node[vf=4,doutline,fit=(intn)(returnx)(xthen)(xelse)(b),outer sep=0pt,fill=blue!50!gray!5,draw=blue!50!gray] (q) {};
 
-				\node[vf=3] at (q.south) {\uselabel{magic}};
+				\node[vf=4] at (q.south) {\uselabel{magic}};
 			\end{tikzpicture}
 		\end{column}
 		\begin{column}{0.1\textwidth}\def\m#1{\tikzmark{#1}}
 			\begin{tikzpicture}
-				\node[vf=15,gn] (intm) {int m};
-				\node[vf=17,gn] (m) [below=of intm] {m};
-				\node[vf=18,gn] (e) [below=of m] {m + 5};
-				\draw[vf=18,def] (e) to (m);
-				\draw[vf=17,read] (m) to (intm);
+				\node[vf=16,gn] (intm) {int m};
+				\node[vf=18,gn] (m) [below=of intm] {m};
+				\node[vf=19,gn] (e) [below=of m] {m + 5};
+				\draw[vf=19,def] (e) to (m);
+				\draw[vf=18,read] (m) to (intm);
 				\coordinate[below=of e,yshift=4mm] (o);
-				\node[vf=14,doutline,fit=(intm)(m)(e)(o),outer sep=0pt,fill=green!50!gray!5,draw=green!50!gray] (F) {};
+				\node[vf=15,doutline,fit=(intm)(m)(e)(o),outer sep=0pt,fill=green!50!gray!5,draw=green!50!gray] (F) {};
 
-				\node[vf=14,gn,yshift=0mm] (add) [below=of F] {addFive};
-				\node[vf=3,gn] (magic) [below=of add] {magic};
-				\draw[vf=14,arrow] (magic) to (add);
+				\node[vf=15,gn,yshift=0mm] (add) [below=of F] {addFive};
+				\node[vf=4,gn] (magic) [below=of add] {magic};
+				\draw[vf=15,arrow] (magic) to (add);
 				\coordinate[below=of magic,yshift=4mm] (B);
-				\node[doutline,fit=(add)(magic)(B),outer sep=0pt,fill=red!50!gray!5,draw=red!50!gray] (F2) {};
+				\node[vf=3,doutline,fit=(add)(magic)(B),outer sep=0pt,fill=red!50!gray!5,draw=red!50!gray] (F2) {};
 
-				\node[vf=14] at (F.south) {\uselabel{addFive}};
+				\node[vf=15] at (F.south) {\uselabel{addFive}};
 
-				\node at (F2.south) {\uselabel{methods}};
+				\node[vf=3] at (F2.south) {\uselabel{methods}};
 			\end{tikzpicture}
 		\end{column}
 		\begin{column}{0.4\textwidth}\def\m#1{\tikzmark{#1}}
@@ -269,29 +269,29 @@
 			\end{solidborder}
 			\newcommand<>\ul[4][0pt]{\uncover#5{\tikz[remember picture, overlay]\fill[#2,opacity=0.3,rounded corners=.7px,visible on=#5] ([yshift=#1-0.8px]pic cs:#3) rectangle ([yshift=#1+1.2px]pic cs:#4);}}
 			\newcommand<>\uls[4][0pt]{\uncover#5{\tikz[remember picture, overlay]\fill[#2,opacity=0.3,rounded corners=.7px,visible on=#5] ([xshift=#1-1px,yshift=0.5ex]pic cs:#3) rectangle ([xshift=#1+1px]pic cs:#4);}} \uls<2-24>{red}{cstart}{cend}%   class
-			\uls<3-24>{blue}{mstart}{mend}%       magic
-			\ul<4>{blue}{ns}{ne}%                 paramN
-			\ul<5>{blue}{bs}{be}%                 paramB
-			\ul<6-7>{blue}{intxs}{intxee}%        int x = 42;
-			\ul<7>[4px]{blue}{intxs}{intxe}%      int x
-			\uls<8-22>{blue}{ifs}{ife}%           if-else
-			\uls<9>{blue}{ps}{pe}%                p
-			\ul<10-19>{blue}{thens}{thene}%        then
-			\ul<11-18>[4px]{blue}{adds}{adde}%    addFive(n)
-			\ul<12>[6.5px]{blue}{pns}{pne}%       n
-			\ul<13-18>[6.5px]{blue}{adds}{addse}% addFive
-			\ul<19>[4px]{blue}{thens}{xte}%       x
-			\ul<20-22>{blue}{elses}{elsee}%       else
-			\ul<21>[4px]{blue}{nes}{nee}%         n
-			\ul<22>[4px]{blue}{elses}{xee}%       x
-			\ul<23-24>{blue}{rs}{re}%             return x;
-			\ul<24>[4px]{blue}{rxs}{rxe}%         x
+			\uls<3-25>{blue}{mstart}{mend}%       magic
+			\ul<5>{blue}{ns}{ne}%                 paramN
+			\ul<6>{blue}{bs}{be}%                 paramB
+			\ul<7-8>{blue}{intxs}{intxee}%        int x = 42;
+			\ul<8>[4px]{blue}{intxs}{intxe}%      int x
+			\uls<9-23>{blue}{ifs}{ife}%           if-else
+			\uls<10>{blue}{ps}{pe}%                p
+			\ul<11-20>{blue}{thens}{thene}%        then
+			\ul<12-19>[4px]{blue}{adds}{adde}%    addFive(n)
+			\ul<13>[6.5px]{blue}{pns}{pne}%       n
+			\ul<14-19>[6.5px]{blue}{adds}{addse}% addFive
+			\ul<20>[4px]{blue}{thens}{xte}%       x
+			\ul<21-23>{blue}{elses}{elsee}%       else
+			\ul<22>[4px]{blue}{nes}{nee}%         n
+			\ul<23>[4px]{blue}{elses}{xee}%       x
+			\ul<24-25>{blue}{rs}{re}%             return x;
+			\ul<25>[4px]{blue}{rxs}{rxe}%         x
 
-			\uls<14-18>{green}{m2s}{m2e}%         addFive
-			\ul<15>{green}{ms}{me}%               paramM
-			\ul<16-18>{green}{r2s}{r2e}%          return m + 5;
-			\ul<18>[4px]{green}{res}{ree}%     m + 5
-			\ul<17-18>[6.5px]{green}{res}{rme}%      m
+			\uls<15-19>{green}{m2s}{m2e}%         addFive
+			\ul<16>{green}{ms}{me}%               paramM
+			\ul<17-19>{green}{r2s}{r2e}%          return m + 5;
+			\ul<19>[4px]{green}{res}{ree}%     m + 5
+			\ul<18-19>[6.5px]{green}{res}{rme}%      m
 		\end{column}
 	\end{columns}
 \end{frame}
