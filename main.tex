@@ -19,14 +19,16 @@
 
 \usetheme[english, coloraccent=forest, notoc]{awesome}
 
-\usetikzlibrary{tikzmark,shapes.misc}
+\usetikzlibrary{tikzmark,shapes.misc,shadows}
 \makeatletter
 \tikzset{
-	vf/.style={alt={<#1->{}{invisible}}},
-	um/.style={unmuted on=<#1>},
+	no shadows/.style={general shadow/.style=},
+	vf/.style={alt={<#1->{}{invisible,no shadows}}},
+	um/.style={alt={#1{}{muted,no shadows}}},
 	short/.style n args={1}{shorten <=#1,shorten >=#1},
 	contoured/.style={preaction={draw=white,line width=2.5\smile@linewidth}},
-	gn/.style={roundednode, fill=lightgray, draw=none, inner sep=1.2mm, minimum width=2em},
+	gn/.style={roundednode, fill=lightgray, draw=none, inner sep=1.2mm, minimum width=2em,drop shadow={shadow xshift=.2ex, shadow yshift=-.2ex}},
+	nsgn/.style={no shadows,gn},
 	dot/.style={circle,fill,inner sep=1pt},
 	outline/.style={roundednode, draw=accent, anchor=north east, outer sep=1ex, inner sep=1ex,line width=\smile@linewidth},
 	doutline/.style={roundednode, draw=gray, dashed, node on layer=background, outer sep=1ex, inner sep=1ex,line width=\smile@linewidth},
@@ -79,16 +81,16 @@
 		\node[inline] (From) [below=of On.south east,anchor=north east] {\javainline{flowsFrom(...)}};
 		\node[inline] (To)   [below=of From.south east,anchor=north east,opacity=0.3] {\javainline{dependsOn(...)}};
 
-		\node[gn,xshift=2mm] (L1) [right=of To] {};
-		\node[gn] (L2) [right=of L1, xshift=1ex] {};
+		\node[nsgn,xshift=2mm] (L1) [right=of To] {};
+		\node[nsgn] (L2) [right=of L1, xshift=1ex] {};
 		\coordinate (C) at ($(L1)!0.5!(L2)$);
-		\node[gn] (R) at (C |- On) {};
+		\node[nsgn] (R) at (C |- On) {};
 		\foreach \i in {L1,L2} \draw[arrow, cr, short=1mm] (R) to (\i);
 
-		\node[gn,xshift=2mm] (L21) [right=of L2] {};
-		\node[gn] (L22) [right=of L21, xshift=1ex] {};
+		\node[nsgn,xshift=2mm] (L21) [right=of L2] {};
+		\node[nsgn] (L22) [right=of L21, xshift=1ex] {};
 		\coordinate (C2) at ($(L21)!0.5!(L22)$);
-		\node[gn] (R2) at (C2 |- R) {};
+		\node[nsgn] (R2) at (C2 |- R) {};
 
 		\node[dot] (RW) at (R2.west) {};
 		\node[dot] (RE) at (R2.east) {};
@@ -165,20 +167,20 @@
 \section{Build the dataflow graph}
 \newsavebox\stepii\newsavebox\legend
 \savebox\stepii{\begin{tikzpicture}[node distance=1ex]
-	\node[gn,xshift=2mm] (L1) {};
-	\node[gn] (L2) [right=of L1, xshift=1ex] {};
-	\node[gn,yshift=1cm] (R) at ($(L1)!0.5!(L2)$) {};
+	\node[nsgn,xshift=2mm] (L1) {};
+	\node[nsgn] (L2) [right=of L1, xshift=1ex] {};
+	\node[nsgn,yshift=1cm] (R) at ($(L1)!0.5!(L2)$) {};
 	\foreach \i in {L1,L2} \draw[arrow, cr, short=1mm] (R) to (\i);
 \end{tikzpicture}}
 \savebox\legend{\begin{tikzpicture}[node distance=1ex]
-	\node[gn] (A1) {\rlap{a}\phantom{b}};
-	\node[gn, right, right=of A1,xshift=1cm] (B1) {b};
-	\node[gn, below, below=of A1,yshift=-5mm] (A2) {\rlap{a}\phantom{b}};
-	\node[gn, right, right=of A2,xshift=1cm] (B2) {b};
-	\node[gn, below, right=of B1] (A3) {\rlap{a}\phantom{b}};
-	\node[gn, right, right=of A3,xshift=1cm] (B3) {b};
-	\node[gn, below, right=of B2] (A4) {\rlap{a}\phantom{b}};
-	\node[gn, right, right=of A4,xshift=1cm] (B4) {b};
+	\node[nsgn] (A1) {\rlap{a}\phantom{b}};
+	\node[nsgn, right, right=of A1,xshift=1cm] (B1) {b};
+	\node[nsgn, below, below=of A1,yshift=-5mm] (A2) {\rlap{a}\phantom{b}};
+	\node[nsgn, right, right=of A2,xshift=1cm] (B2) {b};
+	\node[nsgn, below, right=of B1] (A3) {\rlap{a}\phantom{b}};
+	\node[nsgn, right, right=of A3,xshift=1cm] (B3) {b};
+	\node[nsgn, below, right=of B2] (A4) {\rlap{a}\phantom{b}};
+	\node[nsgn, right, right=of A4,xshift=1cm] (B4) {b};
 	\draw[read] (A1) to node[yshift=-5mm,red!30!black]{read from} (B1);
 	\draw[def] (A2) to node[yshift=-5mm,blue!30!black]{def'ed by} (B2);
 	\draw[occ] (A3) to node[yshift=-5mm,green!30!black]{occurrence} (B3);
@@ -301,9 +303,9 @@
 \section{Traverse the dataflow graph}
 \newsavebox\stepiii
 \savebox\stepiii{\begin{tikzpicture}[node distance=1ex]
-	\node[gn,xshift=2mm] (L21) {};
-	\node[gn] (L22) [right=of L21, xshift=1ex] {};
-	\node[gn,yshift=1cm] (R2) at ($(L21)!0.5!(L22)$) {};
+	\node[nsgn,xshift=2mm] (L21) {};
+	\node[nsgn] (L22) [right=of L21, xshift=1ex] {};
+	\node[nsgn,yshift=1cm] (R2) at ($(L21)!0.5!(L22)$) {};
 
 	\node[dot] (RW) at (R2.west) {};
 	\node[dot] (RE) at (R2.east) {};
@@ -319,7 +321,7 @@
 	\draw[arrow,dashed] (RSE) to node[roundnode,inner sep=0.3pt,solid]{\tiny3}(L2W);
 	\draw[arrow,dashed] (L2E) to[out=90,in=0] node[roundnode,inner sep=0.3pt,solid]{\tiny4} (RE);
 \end{tikzpicture}}
-\def\cgn#1{\tikz[anchor=base, baseline]\node[gn,minimum width=0pt,baseline=]{\normalsize\llap{\phantom{b}}#1};}
+\def\cgn#1{\tikz[anchor=base, baseline]\node[nsgn,minimum width=0pt,baseline=]{\normalsize\llap{\phantom{b}}#1};}
 \begin{frame}
 	\frametitle\secname
 	\begin{tikzpicture}[overlay,remember picture,node distance=-1ex]
@@ -332,55 +334,55 @@
 			\setbeamercovered{transparent=30}
 			\begin{description}
 				\item<1>[\javainline{flowsTo(a)}]\hfill\\ Traverse all paths that lead to a.
-				\item<1->[\javainline{flowsFrom(}\alt<1>{\javainline{a)}}{\cgn{\javainline{int n}}\javainline{)}}]\hfill\\ Traverse all paths start start at \alt<1>{a}{\cgn{int n}}.
+				\item<1->[\javainline{flowsFrom(}\alt<1>{\javainline{a)}}{\cgn{\javainline{int n}}\javainline{)}}]\hfill\\ Traverse all paths that start at \alt<1>{a}{\cgn{int n}}.
 				\item<1>[\javainline{dependsOn(a, b)}]\hfill\\ Is there a path between a and b?
 			\end{description}
 		\end{column}
 		\begin{column}{0.1\textwidth}
 			\begin{tikzpicture}
-				\node[um=1,gn] (intm) {int m};
-				\node[um=1,gn] (m) [below=of intm] {m};
-				\node[um=1,gn] (e) [below=of m] {m + 5};
-				\draw[um=1,def] (e) to (m);
-				\draw[um=1,read] (m) to (intm);
+				\node[um=<{1,15-}>,gn] (intm) {int m};
+				\node[um=<{1,17-}>,gn] (m) [below=of intm] {m};
+				\node[um=<{1,19-}>,gn] (e) [below=of m] {m + 5};
+				\draw[um=<{1,18-}>,def] (e) to (m);
+				\draw[um=<{1,16-}>,read] (m) to (intm);
 				\coordinate[below=of e,yshift=4mm] (o);
-				\node[um=1,doutline,fit=(intm)(m)(e)(o),outer sep=0pt,fill=green!50!gray!5,draw=green!50!gray] (F) {};
-				\node[um=1] at (F.south) {\uselabel{addFive}};
+				\node[um=<{1,14-}>,doutline,fit=(intm)(m)(e)(o),outer sep=0pt,fill=green!50!gray!5,draw=green!50!gray] (F) {};
+				\node[um=<{1,14-}>] at (F.south) {\uselabel{addFive}};
 			\end{tikzpicture}
 		\end{column}
 		\begin{column}{0.45\textwidth}
 			\begin{tikzpicture}
-				\node[um=1,gn] (narg)                          {n};
-				\node[um=1,gn,xshift=3cm] (n) [right=of narg]  {n};
+				\node[um=<{1,12-}>,gn] (narg)                          {n};
+				\node[um=<{1,5-9}>,gn,xshift=3cm] (n) [right=of narg]  {n};
 				\coordinate (C) at ($(narg)!0.5!(n)$);
 				\coordinate[above=of n] (T);
-				\node[um=1,gn,anchor=south] (intn) at (C |- T) {int n};
-				\node[um=1,gn] (addFive) [below=of narg]       {addFive(n)};
-				\node[um=1,gn] (xthen) [below=of addFive]      {x = addFive(n)};
-				\node[um=1,gn] (xelse) at (n |- xthen)         {x = n};
+				\node[um=<{1,3-9}>,gn,anchor=south] (intn) at (C |- T) {int n};
+				\node[um=<{1,13-}>,gn] (addFive) [below=of narg]       {addFive(n)};
+				\node[um=<{1,21-}>,gn] (xthen) [below=of addFive]      {x = addFive(n)};
+				\node[um=<{1,7-9}>,gn] (xelse) at (n |- xthen)         {x = n};
 				\coordinate[below=of xelse] (B);
-				\node[um=1,gn, anchor=north](returnx)at(C |- B){return x};
-				\node[um=1,gn] (intx) at (C |- xelse)          {int x = 42};
-				\node[um=1,gn] (b) at (C |- addFive)           {b};
-				\node[um=1,gn] (boolb) at (C |- n)             {boolean b};
+				\node[um=<{1,9,23-}>,gn, anchor=north](returnx)at(C |- B){return x};
+				\node[um=<{1}>,gn] (intx) at (C |- xelse)          {int x = 42};
+				\node[um=<{1}>,gn] (b) at (C |- addFive)           {b};
+				\node[um=<{1}>,gn] (boolb) at (C |- n)             {boolean b};
 
-				\draw[um=1,read] (returnx) to (xelse);
-				\draw[um=1,occ] (xelse) to (intx);
-				\draw[um=1,con] (xelse) to (b);
-				\draw[um=1,read] (returnx) to (xthen);
-				\draw[um=1,occ] (xthen) to (intx);
-				\draw[um=1,con] (xthen) to (b);
-				\draw[um=1,read] (n) to (intn);
-				\draw[um=1,read] (narg) to (intn);
-				\draw[um=1,read] (addFive) to (narg);
-				\draw[um=1,def] (xthen) to (addFive);
-				\draw[um=1,def] (xelse) to (n);
-				\draw[um=1,read] (b) to (boolb);
+				\draw[um=<{1,8-9}>,read] (returnx) to (xelse);
+				\draw[um=<{1}>,occ] (xelse) to (intx);
+				\draw[um=<{1}>,con] (xelse) to (b);
+				\draw[um=<{1,22-}>,read] (returnx) to (xthen);
+				\draw[um=<{1}>,occ] (xthen) to (intx);
+				\draw[um=<{1}>,con] (xthen) to (b);
+				\draw[um=<{1,4-9}>,read] (n) to (intn);
+				\draw[um=<{1,11-}>,read] (narg) to (intn);
+				\draw[um=<{1,13-}>,read] (addFive) to (narg);
+				\draw[um=<{1,20-}>,def] (xthen) to (addFive);
+				\draw[um=<{1,6-9}>,def] (xelse) to (n);
+				\draw[um=<{1}>,read] (b) to (boolb);
 
 				\coordinate[below=of returnx,yshift=4mm] (b);
-				\node[um=1,doutline,fit=(intn)(returnx)(xthen)(xelse)(b),outer sep=0pt,fill=blue!50!gray!5,draw=blue!50!gray] (q) {};
+				\node[um=<{1,3-}>,doutline,fit=(intn)(returnx)(xthen)(xelse)(b),outer sep=0pt,fill=blue!50!gray!5,draw=blue!50!gray] (q) {};
 
-				\node[um=1] at (q.south) {\uselabel{magic}};
+				\node[um=<{1,3-}>] at (q.south) {\uselabel{magic}};
 			\end{tikzpicture}
 		\end{column}
 	\end{columns}
