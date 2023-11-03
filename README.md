@@ -1,9 +1,8 @@
-# 2023-10-29 Abschlussvideo Folien (DF + Visualizer Plugin)
+# Building a dataflow graph for java
 
-## Clone the repo
-As we use submodules, clone this repository by:
+This repo contains the slides for a very short presentation I gave about creating a
+dataflow graph for java.
 
-```bash
-git clone --recursive https://gitlab.uni-ulm.de/se/aldesco/2023-10-29-abschlussvideo-folien.git
-```
-
+## Build it
+1. You need to clone using the `--recursive` switch
+2. Just call `latexmk` on the `main.tex` file
