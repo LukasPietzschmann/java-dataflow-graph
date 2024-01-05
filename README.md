@@ -4,7 +4,7 @@ This repo contains the slides for a very short presentation I gave about creatin
 dataflow graph for java.
 
 I also made a poster about the same topci. You can find it on [my
-wesbite](https://lukas.pietzschmann.org) under _University Stuff_ > _Project Poster_.
+wesbite](https://lukas.pietzschmann.org) under _University Stuff_ > _Java dataflow graph_.
 
 ## Build it
 1. You need to clone using the `--recursive` switch
